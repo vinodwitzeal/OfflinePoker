@@ -1,0 +1,62 @@
+
+process.png
+size: 1050, 526
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+icon
+  rotate: false
+  xy: 0, 264
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 8
+icon
+  rotate: false
+  xy: 0, 0
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 5
+icon
+  rotate: false
+  xy: 263, 264
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 2
+icon
+  rotate: false
+  xy: 263, 0
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 7
+icon
+  rotate: false
+  xy: 526, 264
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 4
+icon
+  rotate: false
+  xy: 526, 0
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 1
+icon
+  rotate: false
+  xy: 789, 264
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 6
+icon
+  rotate: false
+  xy: 789, 0
+  size: 261, 262
+  orig: 261, 262
+  offset: 0, 0
+  index: 3

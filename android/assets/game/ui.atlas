@@ -1,0 +1,1146 @@
+
+ui.png
+size: 2045, 2040
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+bg_cashback
+  rotate: false
+  xy: 1036, 710
+  size: 996, 220
+  orig: 996, 220
+  offset: 0, 0
+  index: -1
+bg_invite
+  rotate: false
+  xy: 0, 507
+  size: 1034, 423
+  orig: 1034, 423
+  offset: 0, 0
+  index: -1
+bg_invite_small
+  rotate: false
+  xy: 0, 199
+  size: 1034, 306
+  orig: 1034, 306
+  offset: 0, 0
+  index: -1
+bg_poker_header
+  rotate: false
+  xy: 0, 932
+  size: 1080, 516
+  orig: 1080, 516
+  offset: 0, 0
+  index: -1
+btn_grey_close
+  rotate: false
+  xy: 1036, 333
+  size: 819, 175
+  orig: 819, 175
+  offset: 0, 0
+  index: -1
+btn_wtshare
+  rotate: false
+  xy: 1036, 510
+  size: 981, 198
+  orig: 981, 198
+  offset: 0, 0
+  index: -1
+logo_small
+  rotate: false
+  xy: 1082, 1181
+  size: 963, 859
+  orig: 965, 860
+  offset: 1, 1
+  index: -1
+poker_contest_popup
+  rotate: false
+  xy: 0, 1450
+  size: 1080, 590
+  orig: 1080, 590
+  offset: 0, 0
+  index: -1
+private_contest_bg
+  rotate: false
+  xy: 0, 0
+  size: 1032, 197
+  orig: 1032, 197
+  offset: 0, 0
+  index: -1
+shadow
+  rotate: false
+  xy: 1082, 1107
+  size: 812, 72
+  orig: 812, 72
+  offset: 0, 0
+  index: -1
+
+ui2.png
+size: 1937, 1540
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+background_details
+  rotate: false
+  xy: 1415, 610
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+badge_first
+  rotate: false
+  xy: 1872, 292
+  size: 53, 64
+  orig: 53, 64
+  offset: 0, 0
+  index: -1
+badge_second
+  rotate: false
+  xy: 1865, 18
+  size: 53, 63
+  orig: 53, 63
+  offset: 0, 0
+  index: -1
+badge_third
+  rotate: false
+  xy: 1884, 1476
+  size: 53, 64
+  orig: 53, 64
+  offset: 0, 0
+  index: -1
+bg_atext
+  rotate: false
+  xy: 1113, 1
+  size: 99, 93
+  orig: 99, 93
+  offset: 0, 0
+  index: -1
+bg_banner
+  rotate: false
+  xy: 1678, 1148
+  size: 178, 140
+  orig: 178, 140
+  offset: 0, 0
+  index: -1
+bg_bottom
+  rotate: false
+  xy: 1620, 560
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+bg_button
+  rotate: false
+  xy: 1603, 11
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+bg_cbtimer
+  rotate: false
+  xy: 548, 524
+  size: 260, 35
+  orig: 260, 35
+  offset: 0, 0
+  index: -1
+bg_content_full
+  rotate: false
+  xy: 1858, 1232
+  size: 79, 67
+  orig: 79, 67
+  offset: 0, 0
+  index: -1
+bg_cyan
+  rotate: false
+  xy: 1803, 43
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+bg_details
+  rotate: false
+  xy: 1273, 581
+  size: 125, 95
+  orig: 125, 95
+  offset: 0, 0
+  index: -1
+bg_details_white
+  rotate: false
+  xy: 814, 815
+  size: 470, 288
+  orig: 470, 288
+  offset: 0, 0
+  index: -1
+bg_dialog
+  rotate: false
+  xy: 1492, 907
+  size: 184, 184
+  orig: 184, 184
+  offset: 0, 0
+  index: -1
+bg_dialog_rounded
+  rotate: false
+  xy: 1619, 458
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+bg_gray
+  rotate: false
+  xy: 945, 14
+  size: 44, 48
+  orig: 44, 48
+  offset: 0, 0
+  index: -1
+bg_green
+  rotate: false
+  xy: 610, 800
+  size: 81, 56
+  orig: 81, 56
+  offset: 0, 0
+  index: -1
+bg_gtextfield
+  rotate: false
+  xy: 1492, 3
+  size: 109, 114
+  orig: 109, 114
+  offset: 0, 0
+  index: -1
+bg_header
+  rotate: false
+  xy: 1870, 197
+  size: 60, 93
+  orig: 60, 94
+  offset: 0, 1
+  index: -1
+bg_header_bar
+  rotate: false
+  xy: 1678, 978
+  size: 168, 168
+  orig: 168, 168
+  offset: 0, 0
+  index: -1
+bg_items
+  rotate: false
+  xy: 1878, 367
+  size: 53, 51
+  orig: 53, 51
+  offset: 0, 0
+  index: -1
+bg_menu
+  rotate: false
+  xy: 1848, 1043
+  size: 88, 103
+  orig: 88, 103
+  offset: 0, 0
+  index: -1
+bg_page_header
+  rotate: false
+  xy: 765, 818
+  size: 44, 52
+  orig: 44, 52
+  offset: 0, 0
+  index: -1
+bg_prize
+  rotate: false
+  xy: 1625, 228
+  size: 30, 24
+  orig: 30, 24
+  offset: 0, 0
+  index: -1
+bg_rank
+  rotate: false
+  xy: 1214, 3
+  size: 87, 87
+  orig: 87, 87
+  offset: 0, 0
+  index: -1
+bg_red
+  rotate: false
+  xy: 814, 1105
+  size: 470, 136
+  orig: 470, 136
+  offset: 0, 0
+  index: -1
+bg_redeem
+  rotate: false
+  xy: 0, 960
+  size: 768, 106
+  orig: 768, 106
+  offset: 0, 0
+  index: -1
+bg_sand
+  rotate: false
+  xy: 1653, 662
+  size: 155, 119
+  orig: 155, 119
+  offset: 0, 0
+  index: -1
+bg_sky
+  rotate: false
+  xy: 1870, 135
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+bg_strip
+  rotate: false
+  xy: 1722, 564
+  size: 87, 93
+  orig: 87, 93
+  offset: 0, 0
+  index: -1
+bg_text
+  rotate: false
+  xy: 254, 2
+  size: 24, 25
+  orig: 24, 25
+  offset: 0, 0
+  index: -1
+bg_textfield
+  rotate: false
+  xy: 1630, 356
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+bg_toast
+  rotate: false
+  xy: 1071, 669
+  size: 200, 144
+  orig: 200, 144
+  offset: 0, 0
+  index: -1
+bg_wallet
+  rotate: false
+  xy: 1273, 678
+  size: 140, 100
+  orig: 140, 100
+  offset: 0, 0
+  index: -1
+bg_winner
+  rotate: false
+  xy: 1839, 800
+  size: 94, 70
+  orig: 94, 70
+  offset: 0, 0
+  index: -1
+bg_wtimer
+  rotate: false
+  xy: 1800, 480
+  size: 71, 79
+  orig: 71, 79
+  offset: 0, 0
+  index: -1
+bgt_green
+  rotate: false
+  xy: 1492, 712
+  size: 159, 193
+  orig: 159, 193
+  offset: 0, 0
+  index: -1
+bgt_grey
+  rotate: false
+  xy: 1678, 783
+  size: 159, 193
+  orig: 159, 193
+  offset: 0, 0
+  index: -1
+bottom_white
+  rotate: false
+  xy: 1492, 1093
+  size: 184, 184
+  orig: 184, 184
+  offset: 0, 0
+  index: -1
+bt_timer
+  rotate: false
+  xy: 813, 437
+  size: 250, 177
+  orig: 250, 177
+  offset: 0, 0
+  index: -1
+btn_blue
+  rotate: false
+  xy: 1630, 254
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+btn_cblue
+  rotate: false
+  xy: 662, 872
+  size: 130, 30
+  orig: 130, 30
+  offset: 0, 0
+  index: -1
+btn_close
+  rotate: false
+  xy: 1492, 119
+  size: 110, 107
+  orig: 110, 107
+  offset: 0, 0
+  index: -1
+btn_cross_white
+  rotate: false
+  xy: 521, 255
+  size: 78, 78
+  orig: 78, 78
+  offset: 0, 0
+  index: -1
+btn_fb
+  rotate: false
+  xy: 1065, 290
+  size: 198, 186
+  orig: 198, 186
+  offset: 0, 0
+  index: -1
+btn_green
+  rotate: false
+  xy: 1517, 480
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+btn_info
+  rotate: false
+  xy: 1010, 0
+  size: 101, 94
+  orig: 101, 94
+  offset: 0, 0
+  index: -1
+btn_invite
+  rotate: false
+  xy: 1571, 1473
+  size: 311, 67
+  orig: 311, 67
+  offset: 0, 0
+  index: -1
+btn_leaderboard
+  rotate: false
+  xy: 0, 29
+  size: 311, 67
+  orig: 311, 67
+  offset: 0, 0
+  index: -1
+btn_menu
+  rotate: false
+  xy: 0, 98
+  size: 332, 143
+  orig: 336, 147
+  offset: 2, 2
+  index: -1
+btn_msg
+  rotate: false
+  xy: 1046, 96
+  size: 196, 192
+  orig: 196, 192
+  offset: 0, 0
+  index: -1
+btn_off
+  rotate: false
+  xy: 1848, 989
+  size: 87, 52
+  orig: 87, 52
+  offset: 0, 0
+  index: -1
+btn_on
+  rotate: false
+  xy: 614, 21
+  size: 88, 52
+  orig: 88, 52
+  offset: 0, 0
+  index: -1
+btn_others
+  rotate: false
+  xy: 1458, 1279
+  size: 195, 192
+  orig: 195, 192
+  offset: 0, 0
+  index: -1
+btn_red
+  rotate: false
+  xy: 1705, 10
+  size: 96, 101
+  orig: 96, 101
+  offset: 0, 0
+  index: -1
+btn_save
+  rotate: false
+  xy: 814, 1335
+  size: 642, 147
+  orig: 642, 147
+  offset: 0, 0
+  index: -1
+btn_selected
+  rotate: false
+  xy: 0, 243
+  size: 519, 90
+  orig: 519, 90
+  offset: 0, 0
+  index: -1
+btn_truecaller
+  rotate: false
+  xy: 0, 858
+  size: 660, 100
+  orig: 660, 100
+  offset: 0, 0
+  index: -1
+btn_twitter
+  rotate: false
+  xy: 1067, 478
+  size: 198, 189
+  orig: 198, 189
+  offset: 0, 0
+  index: -1
+btn_unselected
+  rotate: false
+  xy: 814, 1243
+  size: 519, 90
+  orig: 519, 90
+  offset: 0, 0
+  index: -1
+btn_verifie
+  rotate: false
+  xy: 334, 141
+  size: 290, 100
+  orig: 290, 100
+  offset: 0, 0
+  index: -1
+btn_wback
+  rotate: false
+  xy: 895, 14
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+bullet
+  rotate: false
+  xy: 1657, 228
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+button_blue
+  rotate: false
+  xy: 1391, 342
+  size: 119, 113
+  orig: 119, 113
+  offset: 0, 0
+  index: -1
+button_green
+  rotate: false
+  xy: 1265, 216
+  size: 123, 113
+  orig: 123, 113
+  offset: 0, 0
+  index: -1
+button_navy
+  rotate: false
+  xy: 754, 77
+  size: 126, 113
+  orig: 126, 113
+  offset: 0, 0
+  index: -1
+button_orange
+  rotate: false
+  xy: 1512, 342
+  size: 116, 113
+  orig: 116, 113
+  offset: 0, 0
+  index: -1
+button_red
+  rotate: false
+  xy: 1604, 113
+  size: 107, 113
+  orig: 107, 113
+  offset: 0, 0
+  index: -1
+cb_check
+  rotate: false
+  xy: 1833, 16
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+cb_down
+  rotate: false
+  xy: 548, 336
+  size: 194, 37
+  orig: 194, 37
+  offset: 0, 0
+  index: -1
+cb_up
+  rotate: false
+  xy: 1655, 1290
+  size: 194, 181
+  orig: 194, 181
+  offset: 0, 0
+  index: -1
+character
+  rotate: false
+  xy: 548, 375
+  size: 260, 147
+  orig: 260, 147
+  offset: 0, 0
+  index: -1
+contest_profile
+  rotate: false
+  xy: 1722, 486
+  size: 76, 76
+  orig: 76, 76
+  offset: 0, 0
+  index: -1
+d_circle
+  rotate: false
+  xy: 0, 335
+  size: 546, 460
+  orig: 546, 460
+  offset: 0, 0
+  index: -1
+details_bg
+  rotate: false
+  xy: 548, 561
+  size: 263, 234
+  orig: 263, 234
+  offset: 0, 0
+  index: -1
+downbutton_bg
+  rotate: false
+  xy: 759, 298
+  size: 49, 40
+  orig: 49, 40
+  offset: 0, 0
+  index: -1
+five_players
+  rotate: false
+  xy: 1721, 458
+  size: 75, 26
+  orig: 75, 26
+  offset: 0, 0
+  index: -1
+h_knob
+  rotate: false
+  xy: 895, 0
+  size: 30, 12
+  orig: 30, 12
+  offset: 0, 0
+  index: -1
+ic_credit
+  rotate: false
+  xy: 1368, 92
+  size: 122, 122
+  orig: 122, 122
+  offset: 0, 0
+  index: -1
+ic_debit
+  rotate: false
+  xy: 626, 75
+  size: 126, 126
+  orig: 126, 126
+  offset: 0, 0
+  index: -1
+ic_googlepay
+  rotate: false
+  xy: 882, 64
+  size: 126, 126
+  orig: 126, 126
+  offset: 0, 0
+  index: -1
+ic_net
+  rotate: false
+  xy: 1810, 659
+  size: 122, 122
+  orig: 122, 122
+  offset: 0, 0
+  index: -1
+ic_others
+  rotate: false
+  xy: 1244, 92
+  size: 122, 122
+  orig: 122, 122
+  offset: 0, 0
+  index: -1
+ic_phonepay
+  rotate: false
+  xy: 1265, 331
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: -1
+ic_qr
+  rotate: false
+  xy: 841, 10
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+ic_qr_code
+  rotate: false
+  xy: 841, 10
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+ic_wallet
+  rotate: false
+  xy: 1393, 457
+  size: 122, 122
+  orig: 122, 122
+  offset: 0, 0
+  index: -1
+icon_account
+  rotate: false
+  xy: 1808, 410
+  size: 68, 68
+  orig: 68, 68
+  offset: 0, 0
+  index: -1
+icon_active
+  rotate: false
+  xy: 227, 2
+  size: 25, 25
+  orig: 25, 25
+  offset: 0, 0
+  index: -1
+icon_add
+  rotate: false
+  xy: 1511, 228
+  size: 112, 112
+  orig: 114, 114
+  offset: 1, 1
+  index: -1
+icon_addcash
+  rotate: false
+  xy: 1806, 105
+  size: 60, 56
+  orig: 60, 56
+  offset: 0, 0
+  index: -1
+icon_amount
+  rotate: false
+  xy: 770, 984
+  size: 27, 42
+  orig: 27, 42
+  offset: 0, 0
+  index: -1
+icon_back
+  rotate: false
+  xy: 1868, 83
+  size: 57, 50
+  orig: 57, 50
+  offset: 0, 0
+  index: -1
+icon_calender
+  rotate: false
+  xy: 1896, 615
+  size: 41, 42
+  orig: 41, 42
+  offset: 0, 0
+  index: -1
+icon_call
+  rotate: false
+  xy: 1517, 582
+  size: 101, 128
+  orig: 101, 128
+  offset: 0, 0
+  index: -1
+icon_camera
+  rotate: false
+  xy: 1446, 1243
+  size: 38, 34
+  orig: 38, 34
+  offset: 0, 0
+  index: -1
+icon_card
+  rotate: false
+  xy: 1335, 1265
+  size: 109, 68
+  orig: 109, 68
+  offset: 0, 0
+  index: -1
+icon_check
+  rotate: false
+  xy: 1620, 680
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+icon_close
+  rotate: false
+  xy: 1391, 231
+  size: 118, 109
+  orig: 118, 109
+  offset: 0, 0
+  index: -1
+icon_down
+  rotate: false
+  xy: 1713, 113
+  size: 29, 19
+  orig: 29, 19
+  offset: 0, 0
+  index: -1
+icon_drop
+  rotate: false
+  xy: 313, 88
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
+icon_feedback
+  rotate: false
+  xy: 1392, 11
+  size: 82, 79
+  orig: 82, 79
+  offset: 0, 0
+  index: -1
+icon_gallery
+  rotate: false
+  xy: 770, 1028
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+icon_game_sound
+  rotate: false
+  xy: 1873, 521
+  size: 64, 38
+  orig: 64, 38
+  offset: 0, 0
+  index: -1
+icon_gift
+  rotate: false
+  xy: 1806, 292
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+icon_gwallet
+  rotate: false
+  xy: 759, 254
+  size: 45, 42
+  orig: 45, 42
+  offset: 0, 0
+  index: -1
+icon_id
+  rotate: false
+  xy: 744, 340
+  size: 54, 33
+  orig: 54, 33
+  offset: 0, 0
+  index: -1
+icon_info
+  rotate: false
+  xy: 1803, 13
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1
+icon_leaderboard
+  rotate: false
+  xy: 1851, 1385
+  size: 86, 86
+  orig: 86, 86
+  offset: 0, 0
+  index: -1
+icon_mail
+  rotate: false
+  xy: 1732, 263
+  size: 68, 47
+  orig: 68, 47
+  offset: 0, 0
+  index: -1
+icon_menu
+  rotate: false
+  xy: 1851, 1301
+  size: 86, 82
+  orig: 86, 82
+  offset: 0, 0
+  index: -1
+icon_mobile
+  rotate: false
+  xy: 1010, 112
+  size: 26, 42
+  orig: 26, 42
+  offset: 0, 0
+  index: -1
+icon_not_sound
+  rotate: false
+  xy: 774, 19
+  size: 65, 56
+  orig: 65, 56
+  offset: 0, 0
+  index: -1
+icon_option
+  rotate: false
+  xy: 1896, 565
+  size: 37, 48
+  orig: 37, 48
+  offset: 0, 0
+  index: -1
+icon_paytm
+  rotate: false
+  xy: 662, 904
+  size: 137, 54
+  orig: 137, 54
+  offset: 0, 0
+  index: -1
+icon_paytm_square
+  rotate: false
+  xy: 1010, 156
+  size: 34, 34
+  orig: 34, 34
+  offset: 0, 0
+  index: -1
+icon_phone
+  rotate: false
+  xy: 1878, 420
+  size: 58, 99
+  orig: 58, 99
+  offset: 0, 0
+  index: -1
+icon_redeem
+  rotate: false
+  xy: 1732, 312
+  size: 72, 68
+  orig: 72, 68
+  offset: 0, 0
+  index: -1
+icon_refresh
+  rotate: false
+  xy: 626, 203
+  size: 131, 131
+  orig: 131, 131
+  offset: 0, 0
+  index: -1
+icon_rules
+  rotate: false
+  xy: 1811, 561
+  size: 83, 96
+  orig: 83, 96
+  offset: 0, 0
+  index: -1
+icon_settings
+  rotate: false
+  xy: 704, 5
+  size: 68, 68
+  orig: 68, 68
+  offset: 0, 0
+  index: -1
+icon_transaction
+  rotate: false
+  xy: 1858, 1152
+  size: 78, 78
+  orig: 78, 78
+  offset: 0, 0
+  index: -1
+icon_true
+  rotate: false
+  xy: 1732, 382
+  size: 74, 74
+  orig: 74, 74
+  offset: 0, 0
+  index: -1
+icon_unutilized
+  rotate: false
+  xy: 0, 797
+  size: 608, 59
+  orig: 608, 59
+  offset: 0, 0
+  index: -1
+icon_up
+  rotate: false
+  xy: 1744, 113
+  size: 29, 19
+  orig: 29, 19
+  offset: 0, 0
+  index: -1
+icon_upi
+  rotate: false
+  xy: 1286, 780
+  size: 142, 39
+  orig: 142, 39
+  offset: 0, 0
+  index: -1
+icon_user
+  rotate: false
+  xy: 759, 208
+  size: 44, 44
+  orig: 44, 44
+  offset: 0, 0
+  index: -1
+icon_vibrate
+  rotate: false
+  xy: 1808, 358
+  size: 64, 50
+  orig: 64, 50
+  offset: 0, 0
+  index: -1
+icon_wallet
+  rotate: false
+  xy: 1806, 222
+  size: 62, 68
+  orig: 62, 68
+  offset: 0, 0
+  index: -1
+icon_walletn
+  rotate: false
+  xy: 1839, 872
+  size: 96, 104
+  orig: 96, 104
+  offset: 0, 0
+  index: -1
+icon_winning_cash
+  rotate: false
+  xy: 814, 1484
+  size: 755, 56
+  orig: 755, 56
+  offset: 0, 0
+  index: -1
+icon_winvite
+  rotate: false
+  xy: 1303, 22
+  size: 87, 68
+  orig: 87, 68
+  offset: 0, 0
+  index: -1
+icon_wwallet
+  rotate: false
+  xy: 1806, 163
+  size: 62, 57
+  orig: 62, 57
+  offset: 0, 0
+  index: -1
+img_cursor
+  rotate: false
+  xy: 1267, 663
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+img_dot
+  rotate: false
+  xy: 1851, 1294
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+img_id
+  rotate: false
+  xy: 1286, 821
+  size: 204, 420
+  orig: 204, 420
+  offset: 0, 0
+  index: -1
+logo_winning
+  rotate: false
+  xy: 0, 1068
+  size: 812, 472
+  orig: 812, 472
+  offset: 0, 0
+  index: -1
+online_group
+  rotate: false
+  xy: 1430, 782
+  size: 52, 37
+  orig: 52, 37
+  offset: 0, 0
+  index: -1
+otp_bg
+  rotate: false
+  xy: 155, 4
+  size: 70, 23
+  orig: 70, 23
+  offset: 0, 0
+  index: -1
+poker_arrow
+  rotate: false
+  xy: 1409, 1243
+  size: 15, 20
+  orig: 15, 20
+  offset: 0, 0
+  index: -1
+poker_dialog
+  rotate: false
+  xy: 813, 616
+  size: 252, 118
+  orig: 252, 118
+  offset: 0, 0
+  index: -1
+poker_emoji
+  rotate: false
+  xy: 1713, 134
+  size: 91, 118
+  orig: 91, 118
+  offset: 0, 0
+  index: -1
+popup_cross
+  rotate: false
+  xy: 1415, 712
+  size: 66, 66
+  orig: 66, 66
+  offset: 0, 0
+  index: -1
+previous_result
+  rotate: false
+  xy: 813, 736
+  size: 256, 77
+  orig: 256, 77
+  offset: 0, 0
+  index: -1
+private_table_bg
+  rotate: false
+  xy: 693, 800
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+progress_empty
+  rotate: false
+  xy: 0, 5
+  size: 76, 22
+  orig: 76, 22
+  offset: 0, 0
+  index: -1
+progress_fill
+  rotate: false
+  xy: 1335, 1245
+  size: 72, 18
+  orig: 72, 18
+  offset: 0, 0
+  index: -1
+scan_btn_bg
+  rotate: false
+  xy: 1267, 457
+  size: 124, 122
+  orig: 124, 122
+  offset: 0, 0
+  index: -1
+splash_btn_green
+  rotate: false
+  xy: 334, 27
+  size: 278, 112
+  orig: 278, 112
+  offset: 0, 0
+  index: -1
+token
+  rotate: false
+  xy: 810, 192
+  size: 234, 243
+  orig: 236, 245
+  offset: 0, 1
+  index: -1
+two_players
+  rotate: false
+  xy: 78, 1
+  size: 75, 26
+  orig: 75, 26
+  offset: 0, 0
+  index: -1
+v_knob
+  rotate: false
+  xy: 794, 872
+  size: 12, 30
+  orig: 12, 30
+  offset: 0, 0
+  index: -1

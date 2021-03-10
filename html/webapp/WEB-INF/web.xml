@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<web-app>
+ <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>PaytmServlet</servlet-name>
+    <servlet-class>server.pokercash.PaytmServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PaytmServlet</servlet-name>
+    <url-pattern>/checkout</url-pattern>
+  </servlet-mapping>
+    <servlet>
+        <servlet-name>ServerLog</servlet-name>
+        <servlet-class>server.pokercash.ServerLog</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServerLog</servlet-name>
+        <url-pattern>/log</url-pattern>
+    </servlet-mapping>
+</web-app>

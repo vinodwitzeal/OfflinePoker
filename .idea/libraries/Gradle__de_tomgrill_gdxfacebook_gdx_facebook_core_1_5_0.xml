@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: de.tomgrill.gdxfacebook:gdx-facebook-core:1.5.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.tomgrill.gdxfacebook/gdx-facebook-core/1.5.0/cca28bd47a7c5fdde126c2763f6352c86fd1340f/gdx-facebook-core-1.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.tomgrill.gdxfacebook/gdx-facebook-core/1.5.0/4f90b14c406919ef8d7ae2c10bc4dfac8b3e5c95/gdx-facebook-core-1.5.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,289 @@
+<!doctype html>
+<html>
+<head>
+	<title>Poker Cash</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta id="gameViewport" name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1">
+	<link rel="icon" href="favicon.png">
+	<link href="styles.css" rel="stylesheet" type="text/css">
+	<script src="appwarp.js"></script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script src="html5-qrcode.min.js" type="text/javascript"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
+	<script type="text/javascript" src="pako.min.js"></script>
+	<script>
+		window.deviceId=new Date().getTime();
+		window.androidId=new Date().getMilliseconds();
+		window.appName="VhH8FCcjYKMvYUVqRuv19w==";
+		window.packageName="IL3NtkAQlOncFJNx/RmaaSFW6W/ozUi40s5uDqXzUiM=";
+		window.keyHash="f4lFLEre0d7n05TDV0JRPINvKf1oezDo0fZnAabR9ME=";
+		window.cookieName="pokerOffline";
+		window.appLaunchSuccess=false;
+
+		window.setLoginScreen=function(){
+			var splashDiv=document.getElementById("html-splash");
+			splashDiv.style.display="block";
+			var gameDiv=document.getElementById("embed-html");
+			gameDiv.style.display="none";
+		}
+
+		window.setGameScreen=function(){
+			var splashDiv=document.getElementById("html-splash");
+			splashDiv.style.display="none";
+			var gameDiv=document.getElementById("embed-html");
+			gameDiv.style.display="block";
+			if(window.setContestScreen){
+				console.log("hasContestSreenMethod");
+				window.setContestScreen();
+			}
+		}
+
+		var handlePaytmResponse=function(paymentResponse){
+			console.log(paymentResponse);
+			paymentCompleted(JSON.stringify(paymentResponse));
+		};
+
+		var startPaytmProcess=function(outputhtml,params){
+			var processWindow=window.open("","_blank",params);
+			var doc=processWindow.document;
+			doc.write(outputhtml);
+			return processWindow;
+		};
+
+		var getQRScanner=function(elementId){
+			var scanner= new Html5Qrcode(elementId);
+			return scanner;
+		};
+
+		
+
+		var getRazorPay=function(options){
+			return new Razorpay(options);
+		};
+
+		var setGameCookie=function(response){
+			var cookieData=JSON.parse(response);
+			var otp=window.decrypt(cookieData.otpAllocated,"bsplay@");
+			cookieData.otp=otp;
+			setCookie(cookieName,JSON.stringify(cookieData),2);
+			return cookieData;
+		}
+		var setCookie=function(cname, cvalue, exdays) {
+			var d = new Date();
+			d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			var expires = "expires="+ d.toUTCString();
+			document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		}
+
+
+		var getCookie=function(cname) {
+			var name = cname + "=";
+			var decodedCookie = decodeURIComponent(document.cookie);
+			var ca = decodedCookie.split(';');
+			for(var i = 0; i <ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) == ' ') {
+				c = c.substring(1);
+			}
+			if (c.indexOf(name) == 0) {
+				return c.substring(name.length, c.length);
+			}
+			}
+			return "";
+		}
+
+		var resetApp=function(){
+			var mainDocument=document.getElementById("html-splash");
+       		while(mainDocument.firstChild){
+            	mainDocument.removeChild(mainDocument.firstChild);
+  				}
+			setCookie(window.cookieName,"");
+			window.cookieData=null;
+            window.appLaunchResponse=null;
+			setLoginScreen();
+			var loginScreen=new LoginScreen(width,height);
+			mainDocument.appendChild(loginScreen.screen);
+			loginScreen.show();
+		}
+
+		
+
+		var keySize = 256;
+		var ivSize = 128;
+		var iterations = 100;
+
+
+		function encrypt (msg, pass) {
+		//var salt = CryptoJS.lib.WordArray.random(128/8);
+
+		var key = CryptoJS.enc.Hex.parse(arrayCopy(pass));
+
+		var iv = CryptoJS.enc.Hex.parse(arrayCopy(pass));
+
+		var encrypted = CryptoJS.AES.encrypt(msg, key, {
+			iv: iv,
+			padding: CryptoJS.pad.Pkcs7,
+			mode: CryptoJS.mode.CBC
+
+		});
+
+		var transitmessage =  encrypted.toString();
+		return transitmessage;
+		}
+
+		function decrypt (transitmessage, pass) {
+		var key = CryptoJS.enc.Hex.parse(arrayCopy(pass));
+		var iv = CryptoJS.enc.Hex.parse(arrayCopy(pass));
+		var encrypted = transitmessage;
+
+		var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+			iv: iv,
+			padding: CryptoJS.pad.Pkcs7,
+			mode: CryptoJS.mode.CBC
+
+		})
+		return decrypted.toString(CryptoJS.enc.Utf8);
+		}
+
+		function toHexString(byteArray) {
+		return Array.from(byteArray, function(byte) {
+			return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+		}).join('')
+		}
+
+		function toUTF8Array(str) {
+			var utf8 = [];
+			for (var i=0; i < str.length; i++) {
+				var charcode = str.charCodeAt(i);
+				if (charcode < 0x80) utf8.push(charcode);
+				else if (charcode < 0x800) {
+					utf8.push(0xc0 | (charcode >> 6), 
+							0x80 | (charcode & 0x3f));
+				}
+				else if (charcode < 0xd800 || charcode >= 0xe000) {
+					utf8.push(0xe0 | (charcode >> 12), 
+							0x80 | ((charcode>>6) & 0x3f), 
+							0x80 | (charcode & 0x3f));
+				}
+				// surrogate pair
+				else {
+					i++;
+					// UTF-16 encodes 0x10000-0x10FFFF by
+					// subtracting 0x10000 and splitting the
+					// 20 bits of 0x0-0xFFFFF into two halves
+					charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+							| (str.charCodeAt(i) & 0x3ff))
+					utf8.push(0xf0 | (charcode >>18), 
+							0x80 | ((charcode>>12) & 0x3f), 
+							0x80 | ((charcode>>6) & 0x3f), 
+							0x80 | (charcode & 0x3f));
+				}
+			}
+			return utf8;
+		}
+
+		function arrayCopy(pass) {
+			const array = [0, 0, 0, 0, 0, 0, 0,0,0, 0, 0, 0, 0, 0, 0,0];
+			var ar = toUTF8Array(pass);
+			var length = Math.min(ar.length, array.length);
+			array.splice(0, length, ...ar.slice(0, length));
+
+		return toHexString(array);
+		}
+
+		function decompress(compressed){
+			var strData     = atob(compressed);
+			var charData    = strData.split('').map(function(x){return x.charCodeAt(0);});
+			var binData     = new Uint8Array(charData);
+			var data        = pako.inflate(binData);
+			return String.fromCharCode.apply(null, new Uint16Array(data));
+			// return data.toString();
+		}
+	</script>
+	<!-- <script src="https://connect.facebook.net/en_US/sdk.js" async>
+		window.fbAsyncInit=function(){
+			FB.init({
+				appId: '535253080145742',
+        		status: true, 
+        		cookie: true, 
+        		xfbml: true,
+        		version: 'v2.4'
+			});
+			FB.get
+		}
+	</script> -->
+</head>
+<body></body>
+<div id="mainDiv">
+	<div id="html-splash">
+		
+	</div>
+	<div id="embed-html">
+	</div>
+	<script src="dom.js"></script>
+	<script src="html/html.nocache.js"></script>
+</div>
+</body>
+
+<script>
+
+
+function handleMouseDown(evt) {
+	evt.preventDefault();
+	evt.stopPropagation();
+	window.focus();
+	}
+
+function handleMouseUp(evt) {
+	evt.preventDefault();
+	evt.stopPropagation();
+	}
+
+document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
+document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
+
+var openFullScreen=function(){
+	var elem=document.documentElement;
+	if(elem.requestFullscreen){
+		elem.requestFullscreen();
+	}else if(elem.mozRequestFullScreen){
+		elem.mozRequestFullScreen();
+	}else if(elem.webkitRequestFullscreen){
+		elem.webkitRequestFullscreen();
+	}else if(elem.msRequestFullscreen){
+		elem.msRequestFullscreen();
+	}
+
+}
+
+var exitFullScreen=function(){
+	if(document.exitFullscreen){
+		document.exitFullscreen();
+	}else if(document.mozCanceFullScreen){
+		document.mozCanceFullScreen();
+	}else if(document.webkitExitFullscreen){
+		document.webkitExitFullscreen();
+	}else if(document.msExitFullScreen){
+		document.msExitFullScreen();
+	}
+}
+
+</script>
+
+<script>
+	window.fbAsyncInit = function() {
+	  FB.init({
+		appId            : '535253080145742',
+		autoLogAppEvents : true,
+		xfbml            : true,
+		version          : 'v10.0'
+	  });
+	  FB.getLoginStatus(function(response){
+		  console.log(response);
+	  })
+	};
+  </script>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</html>
