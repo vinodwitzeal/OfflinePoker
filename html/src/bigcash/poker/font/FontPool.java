@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 import java.util.HashMap;
 
+import bigcash.poker.gwt.PokerGame;
 import bigcash.poker.utils.PokerUtils;
 
 public class FontPool {
@@ -17,7 +18,14 @@ public class FontPool {
     private FontPool() {
         float width = Gdx.graphics.getWidth();
         float height = Gdx.graphics.getHeight();
-        this.density=Math.min(width,height)/360.0f;
+        if (PokerUtils.isMobile()) {
+            this.density = Math.min(width, height) / 360.0f;
+        } else {
+            if (width > height) {
+                this.density = height * 9.0f / (360.0f * 16.0f);
+            }
+        }
+
         clear();
         loadShader();
     }

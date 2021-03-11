@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Panel;
@@ -47,11 +48,12 @@ public class HtmlLauncher extends GwtApplication {
                 return getPreloaderPanel();
         }
         private Preloader.PreloaderCallback getPreloaderPanel(){
-                final Panel preloaderPanel = new VerticalPanel();
+                final VerticalPanel preloaderPanel = new VerticalPanel();
                 preloaderPanel.setStyleName("gdx-preloader");
                 final Image logo = new Image("img/process.gif");
-                logo.setStyleName("logo");
+                logo.setWidth("30%");
                 preloaderPanel.add(logo);
+                preloaderPanel.setCellHorizontalAlignment(logo, HasHorizontalAlignment.ALIGN_CENTER);
                 final Panel meterPanel = new SimplePanel();
                 final InlineHTML meter = new InlineHTML();
                 final Style meterStyle = meter.getElement().getStyle();

@@ -45,6 +45,8 @@ import bigcash.poker.utils.DrawableBuilder;
 import bigcash.poker.utils.GeolocationPosition;
 import bigcash.poker.utils.PokerConstants;
 import bigcash.poker.utils.PokerUtils;
+import bigcash.poker.utils.TextureDrawable;
+import bigcash.poker.widgets.MagicTable;
 import bigcash.poker.widgets.ScrollTable;
 import bigcash.poker.widgets.StyledLabel;
 
@@ -81,62 +83,30 @@ public class PrivateContestDialog extends UIDialog {
     public void buildDialog() {
         float dialogWidth = width * 0.9f;
         contestWidth=dialogWidth*0.95f;
-        Gdx.app.error("PC Dialog","84");
-
         contestPad=contestStyle.bigLabelStyle.font.getCapHeight();
-        Gdx.app.error("PC Dialog","87");
-
         float closeSize = width * 0.08f;
         buttonWidth = width * 0.32f;
-        Table dataTable = buildDataTable();
+
         NinePatch greyNinePatch = new NinePatch(uiAtlas.findRegion("bottom_white"), 30, 30, 30, 30);
         NinePatchDrawable greybackground = new NinePatchDrawable(greyNinePatch);
         greybackground.setMinWidth(60);
         greybackground.setMinHeight(60);
-
-        TextureRegion bg_phone = uiAtlas.findRegion("poker_contest_popup");
-
-        NinePatch whiteNinePatch = new NinePatch(uiAtlas.findRegion("poker_contest_popup"), 30, 30, 30, 30);
-        NinePatchDrawable whitebackground = new NinePatchDrawable(whiteNinePatch);
-        whitebackground.setMinWidth(60);
-        whitebackground.setMinHeight(60);
-
-
+        Table dataTable=new Table();
 
         Table topTable = new Table();
-        topTable.setBackground(whitebackground);
-        topTable.top();
-
-        Table bottomTable = new Table();
-        bottomTable.setBackground(greybackground);
-        bottomTable.bottom();
-
-        Table logoTable = new Table();
-        float phoneWidth = dialogWidth;
-        float phoneHeight = phoneWidth * bg_phone.getRegionHeight() / bg_phone.getRegionWidth();
-        Table bgTable = new Table();
-        bgTable.top();
-        bgTable.add(new Image(bg_phone)).height(phoneHeight * 1.2f).width(phoneWidth).align(Align.top);
-        Image blindImage = new Image();
-        pokerGame.downloadImage(qrInfo.getLogoImageUrl(), blindImage);
-        logoTable.add(blindImage).width(phoneHeight * .4f).height(phoneHeight * .4f).row();
-        topTable.add(logoTable).height(phoneHeight).width(phoneWidth).row();
-
-        Gdx.app.error("PC Dialog","1");
-
+        TextureRegion logoBackgroundRegion=uiAtlas.findRegion("poker_contest_popup");
+        float topTableWidth=dialogWidth;
+        float topTableHeight=topTableWidth*logoBackgroundRegion.getRegionHeight()/logoBackgroundRegion.getRegionWidth();
+        TextureRegionDrawable logoBackground= TextureDrawable.getDrawable(logoBackgroundRegion,topTableWidth,topTableHeight);
+        topTable.setBackground(logoBackground);
+        Image logoImage=new Image();
+        pokerGame.downloadImage(qrInfo.getLogoImageUrl(),logoImage);
+        topTable.add(logoImage).width(topTableWidth*0.4f).height(topTableHeight*0.4f);
+        dataTable.add(topTable).width(topTableWidth).height(topTableHeight).row();
+        Table bottomTable=new MagicTable(greybackground);
         scrollTable =getScrollTable();
-        bottomTable.add(scrollTable).padBottom(5 * density).padTop(-3 * density).width(dialogWidth).height(height*0.5f);
-
-        Label.LabelStyle messageStyle = new Label.LabelStyle();
-        messageStyle.font = FontPool.obtain(FontType.ROBOTO_BOLD, 9);
-        messageStyle.fontColor = Color.BLACK;
-
-        Label.LabelStyle subMessageStyle = new Label.LabelStyle();
-        subMessageStyle.font = FontPool.obtain(FontType.ROBOTO_BOLD, 6);
-        subMessageStyle.fontColor = Color.GRAY;
-
-        dataTable.add(topTable).width(dialogWidth).row();
-        dataTable.add(bottomTable).width(dialogWidth).row();
+        bottomTable.add(scrollTable).padBottom(5 * density).padTop(3 * density).width(dialogWidth).height(height*0.5f);
+        dataTable.add(bottomTable).width(dialogWidth);
 
         Table closeTable = new Table();
         closeTable.top().right();
@@ -156,9 +126,6 @@ public class PrivateContestDialog extends UIDialog {
         backTable.add(dataTable).width(dialogWidth).pad(sidePad, sidePad, 0, sidePad);
         stack.add(backTable);
         stack.add(closeTable);
-
-        Gdx.app.error("PC Dialog","2");
-//        stack.add(closeTable);
         getContentTable().add(stack);
     }
 
