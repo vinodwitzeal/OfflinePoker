@@ -20,7 +20,7 @@ import bigcash.poker.network.LocationHandler;
 public class PokerUtils {
 
     private static String userId = "";
-    public static  boolean mobileDevice;
+    public static boolean mobileDevice;
 
     public static BestPossibleCombination getBestPossibleCombination(ArrayList<Integer> userCards, ArrayList<Integer> openCards, String userId) {
         if (userCards == null || userCards.size() != 2) {
@@ -836,11 +836,11 @@ public class PokerUtils {
 
     public static native String
 
-    encrypt(String value,String key)/*-{
+    encrypt(String value, String key)/*-{
         return $wnd.encrypt(value,key);
     }-*/;
 
-    public static native String decrypt(String value,String key)/*-{
+    public static native String decrypt(String value, String key)/*-{
         return $wnd.decrypt(value,key);
     }-*/;
 
@@ -851,7 +851,6 @@ public class PokerUtils {
     public static native String decompress(String value)/*-{
         return $wnd.decompress(value);
     }-*/;
-
 
 
     public static native boolean isNetworkConnected()/*-{
@@ -886,32 +885,32 @@ public class PokerUtils {
     }-*/;
 
 
-    public static native void setTimeOut(int time,TimeoutHandler handler)/*-{
+    public static native void setTimeOut(int time, TimeoutHandler handler)/*-{
         setTimeout(function(){
             handler.@bigcash.poker.utils.TimeoutHandler::onTimeOut()();
         },time);
     }-*/;
 
-    public static void openFullScreen(TimeoutHandler timeoutHandler){
+    public static void openFullScreen(TimeoutHandler timeoutHandler) {
         try {
             openFullScreen();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        setTimeOut(1500,timeoutHandler);
+        setTimeOut(1500, timeoutHandler);
     }
 
     private static native void openFullScreen() throws JavaScriptException/*-{
         $wnd.openFullScreen();
     }-*/;
 
-    public static void closeFullScreen(TimeoutHandler timeoutHandler){
+    public static void closeFullScreen(TimeoutHandler timeoutHandler) {
         try {
             closeFullScreen();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
-        setTimeOut(1500,timeoutHandler);
+        setTimeOut(1500, timeoutHandler);
     }
 
     private static native void closeFullScreen() throws JavaScriptException/*-{
@@ -1007,12 +1006,12 @@ public class PokerUtils {
     }-*/;
 
 
-    public static float devicePixelRatio(){
+    public static float devicePixelRatio() {
         return (float) GwtGraphics.getNativeScreenDensity();
     }
 
-    public static int convertIntoDevicePixel(float size){
-        return (int)(size/devicePixelRatio());
+    public static int convertIntoDevicePixel(float size) {
+        return (int) (size / devicePixelRatio());
     }
 
 
@@ -1034,29 +1033,29 @@ public class PokerUtils {
     }-*/;
 
 
-    public static void inviteOnWhatsapp(String inviteText){
+    public static void inviteOnWhatsapp(String inviteText) {
         try {
             Gdx.app.error("Invite Text", inviteText);
-            Window.open("whatsapp://send?text="+ URLEncoder.encode(inviteText,"UTF-8"),"","_blank");
-        }catch (Exception e){
+            Window.open("whatsapp://send?text=" + URLEncoder.encode(inviteText, "UTF-8"), "", "_blank");
+        } catch (Exception e) {
 
         }
     }
 
-    public static void shareOnFacebook(String inviteText){
+    public static void shareOnFacebook(String inviteText) {
         try {
-            String url="https://www.facebook.com/sharer/sharer.php?u="+URLEncoder.encode(inviteText,"UTF-8");
-            Window.open(url,"","_blank");
-        }catch (Exception e){
+            String url = "https://www.facebook.com/sharer/sharer.php?u=" + URLEncoder.encode(inviteText, "UTF-8");
+            Window.open(url, "", "_blank");
+        } catch (Exception e) {
 
         }
     }
 
-    public static void shareOnTwitter(String inviteText){
+    public static void shareOnTwitter(String inviteText) {
         try {
-            String url="https://twitter.com/intent/tweet?text="+URLEncoder.encode(inviteText,"UTF-8");
-            Window.open(url,"","_blank");
-        }catch (Exception e){
+            String url = "https://twitter.com/intent/tweet?text=" + URLEncoder.encode(inviteText, "UTF-8");
+            Window.open(url, "", "_blank");
+        } catch (Exception e) {
 
         }
     }
@@ -1074,8 +1073,8 @@ public class PokerUtils {
         return map;
     }
 
-    public static void openUrl(String url){
-        Window.open(url,"_blank","");
+    public static void openUrl(String url) {
+        Window.open(url, "_blank", "");
     }
 
     public static native String formatValue(float value)/*-{
@@ -1083,12 +1082,18 @@ public class PokerUtils {
     }-*/;
 
 
-    public static boolean setAppData(){
-        CookieData cookieData=CookieData.getCookieData();
-        if (cookieData==null)return false;
-        String appLaunchResponse=CookieData.getAppLaunchResponse();
-        if (appLaunchResponse==null)return false;
-        GamePreferences preferences=GamePreferences.instance();
+    public static boolean setAppData() {
+        CookieData cookieData = CookieData.getCookieData();
+        if (cookieData == null) {
+            Gdx.app.error("Cookie Data", "NULL");
+            return false;
+        }
+        String appLaunchResponse = CookieData.getAppLaunchResponse();
+        if (appLaunchResponse == null) {
+            Gdx.app.error("App Launch Response", "NULL");
+            return false;
+        }
+        GamePreferences preferences = GamePreferences.instance();
         preferences.setOtp(cookieData.getOTP());
         preferences.setUserId(cookieData.getUserId());
         String zipResult = ApiHandler.parseToGetZipData(appLaunchResponse);
@@ -1098,8 +1103,8 @@ public class PokerUtils {
         } catch (Exception e) {
 
         }
-        Gdx.app.error("AppLaunchResponse",result);
-        if (result.matches("")){
+        Gdx.app.error("AppLaunchResponse", result);
+        if (result.matches("")) {
             return false;
         }
         ApiHandler.parseAppLaunchResponse(result, false);
@@ -1107,12 +1112,9 @@ public class PokerUtils {
     }
 
 
-
-
     public static native void resetApp()/*-{
         $wnd.resetApp();
     }-*/;
-
 
 
 }

@@ -43,6 +43,8 @@ public class PokerStyle {
     public Label.LabelStyle scanButtonStyle;
     public float scanButtonHeight,scanButtonWidth;
     public float scanButtonX,scanButtonY;
+    public TextureRegion qrIconRegion;
+    public float qrIconWidth,qrIconHeight;
 
     public float logoWidth,logoHeight;
     public float logoX,logoY;
@@ -96,8 +98,13 @@ public class PokerStyle {
         scanButtonStyle=new Label.LabelStyle();
         scanButtonStyle.font=FontPool.obtain(FontType.ROBOTO_BOLD,5);
         scanButtonStyle.fontColor=Color.WHITE;
+
+        qrIconRegion=atlas.findRegion("ic_qr");
+        qrIconHeight=scanButtonStyle.font.getCapHeight();
+        qrIconWidth=qrIconHeight*qrIconRegion.getRegionWidth()/qrIconRegion.getRegionHeight();
+
         scanButtonHeight=scanButtonStyle.font.getLineHeight()*2.5f;
-        scanButtonWidth=6*scanButtonStyle.font.getLineHeight();
+        scanButtonWidth=7*scanButtonStyle.font.getLineHeight();
         scanButtonX=leftSpace+backgroundWidth*0.95f-scanButtonWidth;
         scanButtonY=(backgroundHeight-scanButtonHeight)/2f;
         offlineWidth=width;

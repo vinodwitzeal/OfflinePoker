@@ -1026,9 +1026,10 @@ public class ApiHandler {
                         @Override
                         public void run() {
                             processDialog.hide();
+                            Payment.startPaytmProcess(sso_token, orderId, GamePreferences.instance().getUserId(), amount + "", callbackUrl, checksum, cashBackId, source, listener);
                         }
                     });
-                    Payment.startPaytmProcess(sso_token, orderId, GamePreferences.instance().getUserId(), amount + "", callbackUrl, checksum, cashBackId, source, listener);
+
                 } else {
                     if (statusCode != HttpStatus.SC_UNAUTHORIZED) {
                         listener.setError("Server Error");
@@ -1102,8 +1103,6 @@ public class ApiHandler {
             params.put("cashBackId", cashBackId);
         }
         params.put("transactionId", transactionId);
-//        Gdx.app.log("cashBackId", cashBackId + "");
-//        Constant.PROMO_CODE = "";
 
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         Net.HttpRequest httpPost = requestBuilder.newRequest()

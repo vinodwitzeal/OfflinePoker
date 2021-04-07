@@ -101,6 +101,7 @@ public class HoldemContestPage extends PokerContestPage {
 
         Table scanButton=new Table();
         scanButton.setBackground(pokerStyle.scanButtonBackground);
+        scanButton.add(new Image(pokerStyle.qrIconRegion)).width(pokerStyle.qrIconWidth).height(pokerStyle.qrIconHeight).padRight(pokerStyle.qrIconWidth/2f);
         buttonLabel=new Label("",pokerStyle.scanButtonStyle);
         if (qrInfo==null){
             buttonLabel.setText("Scan");
@@ -128,83 +129,6 @@ public class HoldemContestPage extends PokerContestPage {
         pokerGame.downloadImage("https://1101993670.rsc.cdn77.org/img/private_table_logo.png", titleImage);
 
         contentTable.add(widgetGroup).width(pokerStyle.offlineWidth).height(pokerStyle.offlineHeight).padTop(pokerStyle.topPad).padBottom(pokerStyle.bottomPad).row();
-
-
-
-//        final Table stackTable = new Table();
-//        Table frontTable = new Table();
-//        TextureRegion qrBackground=contestScreen.uiAtlas.findRegion("private_contest_bg");
-//        float tableHeight=contestStyle.tableWidth*qrBackground.getRegionHeight()/qrBackground.getRegionWidth();
-//        TextureRegionDrawable background= TextureDrawable.getDrawable(qrBackground,contestStyle.tableWidth,tableHeight);
-//
-//        float downButtonHeight = contestStyle.bigLabelStyle.font.getCapHeight();
-//        float downButtonWidth = downButtonHeight * contestStyle.downDrawable.getMinWidth() / contestStyle.downDrawable.getMinHeight();
-//        frontTable.setBackground(background);
-//        frontTable.pad(0, downButtonHeight*4.8f,0, downButtonHeight*2);
-//
-//        tableLogoImage = new Image();
-//        float logoImageSize=tableHeight*0.6f;
-//        if (qrInfo!=null) {
-//            String setTableLogoUrl = qrInfo.getLogoImageUrl();
-//            pokerGame.downloadImage(setTableLogoUrl, tableLogoImage);
-//        }
-//        frontTable.add(tableLogoImage).width(logoImageSize).height(logoImageSize).padTop(7*density).padRight(4*density).expandX();
-//
-//        Table buttonTable = new Table();
-//        NinePatchDrawable redButton = new NinePatchDrawable(new NinePatch(contestScreen.uiAtlas.findRegion("scan_btn_bg"), 8, 8, 8, 8));
-//        buttonTable.setBackground(redButton);
-//        float sidePad=4*density;
-//        float bottomPad=6*density;
-//        buttonTable.pad(sidePad,sidePad,bottomPad,sidePad);
-//
-//        TextureRegion qrTexture =contestScreen.uiAtlas.findRegion("ic_qr");
-//        float qrHeight=contestStyle.qrLabelStyle.font.getLineHeight();
-//        float qrWidth=qrHeight*qrTexture.getRegionWidth()/qrTexture.getRegionHeight();
-//        buttonTable.add(new Image(qrTexture)).height(qrHeight).width(qrWidth);
-//        buttonLabel=new Label("",contestStyle.qrLabelStyle);
-//        if (qrInfo==null){
-//            buttonLabel.setText("Scan");
-//
-//        }else {
-//            buttonLabel.setText("Play");
-//        }
-//
-//        buttonTable.add(buttonLabel).padLeft(6 * density);
-//
-//        buttonTable.setTouchable(Touchable.enabled);
-//        buttonTable.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                onPrivateButtonClicked(tableLogoImage,buttonLabel);
-//            }
-//        });
-//
-//
-//        frontTable.add(buttonTable).width(buttonWidth * 0.7f).height(height *.05f).align(Align.right);
-//
-//
-//        float titleHeight = downButtonHeight * 4;
-//        float titleWidth = titleHeight * 1.32f;
-//
-//        Table titleTable = new Table();
-//        titleTable.top().left();
-//
-//        Image titleImage = new Image();
-////        if (contest.getImageUrl() != null) {
-//        String setimageUrl = "https://1101993670.rsc.cdn77.org/img/private_table_logo.png";
-//        pokerGame.downloadImage(setimageUrl, titleImage);
-////
-//        titleTable.add(titleImage).width(titleWidth).height(titleHeight).padTop(titleHeight * 0.25f);
-//
-//        Table backTable = new Table();
-//        backTable.add(frontTable).width(contestStyle.tableWidth).height(tableHeight).pad(titleHeight*0.5f, downButtonHeight, 0, 0);
-//
-//        Stack stack = new Stack();
-//        stack.add(backTable);
-//        stack.add(titleTable);
-//
-//        stackTable.add(stack).expand().fill().pad(4 * density);
-//        return stackTable;
     }
 
     private void onPrivateButtonClicked(Image logoImage,Label buttonLabel){

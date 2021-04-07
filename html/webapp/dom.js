@@ -1,14 +1,6 @@
 var baseUrl="https://test1.bigcash.live/bulbsmashpro/api/";
 
-  function clearMain(){
-       while(mainDocument.firstChild){
-            mainDocument.removeChild(mainDocument.firstChild);
-        }   
-  }
-
-
   function startMain(){
-      clearMain();
       window.setGameScreen();
   }
 
@@ -1085,15 +1077,13 @@ function callAppLaunch(otp,userId,cookieData,processPop){
     }
 
     callPost(baseUrl+"v10/user/appLaunch?userId="+userId,params,function(state,response){
-        console.log(state,response);
-
         if(state==200){
             window.cookieData=cookieData;
             window.appLaunchResponse=response;
             startMain();
         }else{
             window.clearGameCookie();
-            processPop.hide();
+           
         }
     });
 }
@@ -1166,6 +1156,7 @@ function callFBLogin(accessToken,processPop){
         "dn":"7eNuF20uEhbdi6IQ3fB3lg==",
         "rbs":"false"
     }
+    
     callPost(baseUrl+"v5/user/fbLogin",params,function(state,response){
         console.log(state);
         console.log(response);
@@ -1386,36 +1377,10 @@ class LoginDialog extends ModelDialog{
         errorLabel.child.style.color="red";
         errorLabel.child.style.width="80%";
         errorLabel.child.style.textAlign="center";
+        errorLabel.child.style.marginBottom="15px";
         this.contentTable.appendChild(errorLabel.child);
 
-
-        var messageDiv=document.createElement("div");
-        messageDiv.style.display="flex";
-        messageDiv.style.justifyContent="center";
-        messageDiv.style.alignItems="center";
-        messageDiv.style.marginTop="10px";
-        messageDiv.style.marginBottom="10px";
-        var newUserLabel=new Label("NEW USER?",10);
-        newUserLabel.child.style.color="black";
-        newUserLabel.child.style.fontWeight="bold";
-        newUserLabel.child.style.display="flex";
-        newUserLabel.child.style.flexWrap="wrap";
-        var registerLabel=new Label("REGISTER",10);
-        registerLabel.child.style.color="#0083e8";
-        registerLabel.child.style.fontWeight="bold";
-        registerLabel.child.style.display="flex";
-        registerLabel.child.style.flexWrap="wrap";
-        messageDiv.appendChild(newUserLabel.child);
-        messageDiv.appendChild(registerLabel.child);
-    
-        this.contentTable.appendChild(messageDiv);
-
         var _that=this;
-        registerLabel.child.addEventListener("click",function(){
-            _that.hide();
-            var registerPop=new RegisterDialog(width,height);
-            registerPop.show();
-        });
 
 
         this.button.innerHTML="Login";

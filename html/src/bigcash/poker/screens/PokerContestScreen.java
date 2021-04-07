@@ -217,8 +217,20 @@ public class PokerContestScreen extends UIScreen {
             }
         };
 
-        PokerHeaderItem holdem = new PokerHeaderItem(pageView, HOLDEM, "NL Holdem");
-        PokerHeaderItem omaha = new PokerHeaderItem(pageView, OMAHA, "PL Omaha");
+        PokerHeaderItem holdem = new PokerHeaderItem(pageView, HOLDEM, "NL Holdem"){
+            @Override
+            public void onSelected() {
+                super.onSelected();
+                qrTable.setVisible(true);
+            }
+        };
+        PokerHeaderItem omaha = new PokerHeaderItem(pageView, OMAHA, "PL Omaha"){
+            @Override
+            public void onSelected() {
+                super.onSelected();
+                qrTable.setVisible(false);
+            }
+        };
 
         Table gameHeaderTable = new Table();
         gameHeaderTable.add(holdem).uniformX().expandX().fillX();
@@ -340,7 +352,7 @@ public class PokerContestScreen extends UIScreen {
         Label.LabelStyle winningStyle = new Label.LabelStyle();
         winningStyle.font = FontPool.obtain(FontType.ROBOTO_BOLD, 14);
         winningStyle.fontColor = Color.valueOf("ffffff");
-        winningLabel = new Label("\u20b9 25", winningStyle);
+        winningLabel = new Label("\u20b9 0", winningStyle);
         setWinnings(Constant.userProfile.getCasualWinnings());
         rummyWinningTable.add(winningLabel);
         rummyWinningTable.setTouchable(Touchable.enabled);

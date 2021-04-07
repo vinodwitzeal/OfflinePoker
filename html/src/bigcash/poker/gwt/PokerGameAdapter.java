@@ -22,7 +22,7 @@ import bigcash.poker.utils.PokerUtils;
 import bigcash.poker.utils.TimeoutHandler;
 import bigcash.poker.widgets.ProcessView;
 
-public class PokerGameAdapter implements ApplicationListener {
+public abstract class PokerGameAdapter implements ApplicationListener {
     private UIScreen screen;
     private FitViewport viewport;
     private Stage stage;
@@ -30,10 +30,7 @@ public class PokerGameAdapter implements ApplicationListener {
     private Label messageLabel;
     private int previousWidth, previousHeight;
 
-
-
-    @Override
-    public void create() {
+    public void init() {
         viewport=new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         stage = new Stage(viewport);
         Stack stack = new Stack();
@@ -147,9 +144,10 @@ public class PokerGameAdapter implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.error("Resize","Width:"+width+",Height:"+height);
+
         previousWidth = width;
         previousHeight = height;
+        if (viewport!=null)
         viewport.update(width,height);
         if (screen != null) {
             screen.resize(width, height);
@@ -173,7 +171,7 @@ public class PokerGameAdapter implements ApplicationListener {
         if (screen != null && screen.shown) {
             screen.render(Gdx.graphics.getDeltaTime());
         }
-        if (renderStage) {
+        if (renderStage && stage!=null) {
             stage.act(Gdx.graphics.getDeltaTime());
             viewport.apply();
             stage.draw();

@@ -37,6 +37,8 @@
 			if(window.setContestScreen){
 				console.log("hasContestSreenMethod");
 				window.setContestScreen();
+			}else{
+				console.log("NoContestScreenMethod");
 			}
 		}
 
@@ -45,11 +47,13 @@
 			paymentCompleted(JSON.stringify(paymentResponse));
 		};
 
+
+
 		var startPaytmProcess=function(outputhtml,params){
 			var processWindow=window.open("","_blank",params);
-			var doc=processWindow.document;
-			doc.write(outputhtml);
-			return processWindow;
+			if(!processWindow)return false;
+			processWindow.document.write(outputhtml);
+			return true;
 		};
 
 		var getQRScanner=function(elementId){
@@ -219,13 +223,12 @@
 <body>
 
 <div id="mainDiv">
-	<div id="html-splash">
-		
+	<div id="html-splash">	
 	</div>
 	<div id="embed-html">
 	</div>
-	<script src="dom.js"></script>
 	<script src="html/html.nocache.js"></script>
+	<script src="dom.js"></script>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
@@ -308,9 +311,6 @@ var exitFullScreen=function(){
 		xfbml            : true,
 		version          : 'v10.0'
 	  });
-	  FB.getLoginStatus(function(response){
-		  console.log(response);
-	  })
 	};
   </script>
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>

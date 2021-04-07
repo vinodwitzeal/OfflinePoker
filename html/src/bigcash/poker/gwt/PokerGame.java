@@ -28,6 +28,7 @@ public class PokerGame extends PokerGameAdapter {
     public QrInfo qrInfo;
     public boolean qrContestShown;
     public GwtApplicationConfiguration appConfig;
+    private boolean allInitialized;
 
     public void setAppConfig(GwtApplicationConfiguration appConfig){
         this.appConfig=appConfig;
@@ -35,15 +36,13 @@ public class PokerGame extends PokerGameAdapter {
 
     @Override
     public void create() {
+
         textureDownloader=new TextureDownloader();
         qrId=Window.Location.getParameter("qr");
-        if (qrId==null){
-            qrId="";
+        if (qrId==null) {
+            qrId = "";
         }
-
         PokerUtils.setScreen("LoadingScreen");
-        FontPool.init();
-        super.create();
         setListener(this);
         setContestScreen();
     }
@@ -62,8 +61,19 @@ public class PokerGame extends PokerGameAdapter {
 
     private void setContestScreen(){
         if (PokerUtils.setAppData()){
-            qrContestShown=false;
-            setScreen(new PokerContestScreen(this));
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    if(!allInitialized){
+                        FontPool.init();
+                        init();
+                        allInitialized=true;
+                    }
+                    qrContestShown=false;
+                    setScreen(new PokerContestScreen(PokerGame.this));
+                }
+            });
+
         }
     }
 

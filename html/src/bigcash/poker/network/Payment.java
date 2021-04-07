@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.Window;
 
 import bigcash.poker.constants.Constant;
 import bigcash.poker.utils.GamePreferences;
@@ -51,7 +52,8 @@ public class Payment {
         outputHtml.append("</script>");
         outputHtml.append("</body>");
         outputHtml.append("</html>");
-        startPaymentProcess(outputHtml.toString(), "width=" + Gdx.graphics.getWidth() + ",height=" + Gdx.graphics.getHeight(),
+        String params="scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=" + Gdx.graphics.getWidth() + ",height=" + Gdx.graphics.getHeight();
+        boolean success=startPaymentProcess(outputHtml.toString(), params,
                 new PaymentHandler() {
                     @Override
                     public void onCompleted(String jsonResponse) {
@@ -67,19 +69,24 @@ public class Payment {
 
                     @Override
                     public void onError(String message) {
+                        listener.setFail("Transaction failed");
                     }
                 });
+
+        if (!success){
+            Window.alert("Please Allow Popup To Complete Payment!");
+        }
     }
 
     private static String getInputString(String key,String value){
         return "<input type='hidden' name='" + key + "' value='" + value + "'>";
     }
 
-    private static native void startPaymentProcess(String outputHtml, String params, PaymentHandler handler)/*-{
+    private static native boolean startPaymentProcess(String outputHtml, String params, PaymentHandler handler)/*-{
         $wnd.paymentCompleted=$entry(function(response){
             handler.@bigcash.poker.network.Payment.PaymentHandler::onCompleted(Ljava/lang/String;)(response);
         });
-        var processWindow=$wnd.startPaytmProcess(outputHtml,params);
+        return $wnd.startPaytmProcess(outputHtml,params);
     }-*/;
 
     public static void payWithRazor(float amount,String cashbackId,String source,GdxListener<String> listener){
