@@ -780,22 +780,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
                 resumeConnection();
             }
         }
-        new LandscapeCashAddDialog(this, "HoldemGameScreen", 20, new GdxListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-
-            }
-
-            @Override
-            public void onFail(String reason) {
-
-            }
-
-            @Override
-            public void onError(String error) {
-
-            }
-        }).show(stage);
     }
 
     @Override

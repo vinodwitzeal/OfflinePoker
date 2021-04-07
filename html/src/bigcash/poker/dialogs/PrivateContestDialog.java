@@ -27,6 +27,7 @@ import bigcash.poker.constants.Constant;
 import bigcash.poker.font.FontPool;
 import bigcash.poker.font.FontType;
 import bigcash.poker.game.PokerLoginListener;
+import bigcash.poker.game.PokerStyle;
 import bigcash.poker.game.holdem.HoldemGameScreen;
 import bigcash.poker.game.holdem.controllers.HoldemRunningRoomListener;
 import bigcash.poker.game.holdem.controllers.HoldemWarpController;
@@ -52,7 +53,7 @@ import bigcash.poker.widgets.StyledLabel;
 
 public class PrivateContestDialog extends UIDialog {
     private TextureAtlas uiAtlas;
-    private PokerContestStyle contestStyle;
+    private PokerStyle pokerStyle;
     private float buttonWidth;
     private QrInfo qrInfo;
     private ProcessDialog processDialog;
@@ -60,19 +61,19 @@ public class PrivateContestDialog extends UIDialog {
     private boolean fetchContest;
     private float contestWidth,contestPad;
 
-    public PrivateContestDialog(UIScreen screen, QrInfo qrInfo, PokerContestStyle contestStyle,boolean fetchContest) {
+    public PrivateContestDialog(UIScreen screen, QrInfo qrInfo, PokerStyle pokerStyle,boolean fetchContest) {
         super(screen);
         this.qrInfo = qrInfo;
         this.processDialog = new ProcessDialog(screen);
-        this.contestStyle = contestStyle;
+        this.pokerStyle =pokerStyle;
         this.uiAtlas = AssetsLoader.instance().uiAtlas;
         this.fetchContest=fetchContest;
         dismissOnBack(true);
         buildDialog();
     }
 
-    public PrivateContestDialog(UIScreen screen, QrInfo qrInfo, PokerContestStyle contestStyle) {
-        this(screen,qrInfo,contestStyle,false);
+    public PrivateContestDialog(UIScreen screen, QrInfo qrInfo, PokerStyle pokerStyle) {
+        this(screen,qrInfo,pokerStyle,false);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class PrivateContestDialog extends UIDialog {
     public void buildDialog() {
         float dialogWidth = width * 0.9f;
         contestWidth=dialogWidth*0.95f;
-        contestPad=contestStyle.bigLabelStyle.font.getCapHeight();
+        contestPad=pokerStyle.bottomPad;
         float closeSize = width * 0.08f;
         buttonWidth = width * 0.32f;
 
@@ -103,7 +104,7 @@ public class PrivateContestDialog extends UIDialog {
         pokerGame.downloadImage(qrInfo.getLogoImageUrl(),logoImage);
         topTable.add(logoImage).width(topTableWidth*0.4f).height(topTableHeight*0.4f);
         dataTable.add(topTable).width(topTableWidth).height(topTableHeight).row();
-        Table bottomTable=new MagicTable(greybackground);
+        Table bottomTable=new MagicTable(greybackground,"233352");
         scrollTable =getScrollTable();
         bottomTable.add(scrollTable).padBottom(5 * density).padTop(3 * density).width(dialogWidth).height(height*0.5f);
         dataTable.add(bottomTable).width(dialogWidth);
@@ -215,36 +216,45 @@ public class PrivateContestDialog extends UIDialog {
 
 
     public Table getContestTable(final PokerContest contest) {
-        Table frontTable = new Table();
-        NinePatchDrawable background = new NinePatchDrawable(new NinePatch(uiAtlas.findRegion("private_table_bg"), 8, 8, 8, 8));
-        frontTable.setBackground(background);
-        frontTable.pad(contestPad, contestPad*2, contestPad, contestPad);
+        Table containerTable = new Table();
+        Table prizeTable = new MagicTable(pokerStyle.prizeBackground);
+        prizeTable.add(new Label("\u20b9" + contest.getTotalWinnings(), pokerStyle.prizeStyle)).row();
+        prizeTable.add(new Label("PRIZE", pokerStyle.prizeLabelStyle));
 
+        containerTable.add(prizeTable).width(pokerStyle.prizeWidth).uniformY().fillY().padRight(2);
 
-        Table winnersTable = new Table();
-        winnersTable.add(new Label("Bet Value", contestStyle.bigLabelStyle)).row();
-        winnersTable.add(new Label(contest.getBetValue() + "", contestStyle.winnersStyle));
+        Table contestTable = new MagicTable(pokerStyle.contestBackground);
+        contestTable.pad(pokerStyle.cardGap, 0, pokerStyle.cardGap, pokerStyle.cardGap);
+        Table formatTable = new Table();
+        formatTable.add(new Label("Bet Value", pokerStyle.labelStyle)).row();
+        formatTable.add(new Label(PokerUtils.getValue(contest.getBetValue())+"", pokerStyle.valueStyle));
+        contestTable.add(formatTable).expandX();
 
-        frontTable.add(winnersTable);
+        Table playerTable = new Table();
+        playerTable.add(new Label("Max Players", pokerStyle.labelStyle)).row();
+        Table playerCountTable = new Table();
+        playerCountTable.add(new Image(pokerStyle.playerIconRegion)).width(pokerStyle.playerIconWidth).height(pokerStyle.playerIconHeight);
+        playerCountTable.add(new Label(" " + contest.getMaxUsersPerTable(), pokerStyle.valueStyle));
+        playerTable.add(playerCountTable);
+        contestTable.add(playerTable).expandX();
 
-
-        Table winningsTable = new Table();
-        winningsTable.add(new Label("Winnings", contestStyle.bigLabelStyle)).row();
-        final String numberAsString = PokerUtils.getValue(contest.getTotalWinnings()) + "";
-        winningsTable.add(new Label("\u20b9" + numberAsString, contestStyle.winningsStyle));
-        frontTable.add(winningsTable).expandX();
 
         Table buttonTable = new Table();
-        buttonTable.setBackground(contestStyle.blueButton);
-
-        buttonTable.add(StyledLabel.getLabel("Entry Fee:", contestStyle.smallWhiteLabelStyle,contestStyle.fontStyle)).padRight(6 * density);
-
+        buttonTable.setBackground(pokerStyle.buttonBackground);
+        StyledLabel entryLabel = new StyledLabel("Entry Fee:", pokerStyle.entryLabelStyle);
+        entryLabel.outline(0.25f, Color.valueOf("00000022"));
+        buttonTable.add(entryLabel);
+        StyledLabel entryFeeLabel;
         if (contest.getMinJoiningFee() >= 1000) {
-            buttonTable.add(StyledLabel.getLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), contestStyle.pokerWhiteLabelStyleForHighEntry1,contestStyle.fontStyle));
+            entryFeeLabel = new StyledLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), pokerStyle.entryStyle);
         } else {
-            buttonTable.add(StyledLabel.getLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), contestStyle.pokerBigWhiteLabelStyle,contestStyle.fontStyle));
+            entryFeeLabel = new StyledLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), pokerStyle.entryStyle);
         }
 
+        entryFeeLabel.outline(0.25f, Color.valueOf("00000022"));
+        buttonTable.add(entryFeeLabel);
+        contestTable.add(buttonTable).width(pokerStyle.buttonWidth).height(pokerStyle.buttonHeight);
+        containerTable.add(contestTable).uniformY().expandX().fill();
         buttonTable.setTouchable(Touchable.enabled);
         buttonTable.addListener(new ClickListener() {
             @Override
@@ -272,28 +282,7 @@ public class PrivateContestDialog extends UIDialog {
                 onEntryButtonClick(contest);
             }
         });
-
-
-        frontTable.add(buttonTable).width(buttonWidth).align(Align.right).uniformY().fillY();
-
-        frontTable.row();
-
-        if (contest.getOfferText() != null && !contest.getOfferText().isEmpty()) {
-            Label offer = new Label("Offer: " + contest.getOfferText(), contestStyle.offerStyle);
-            frontTable.add(offer)
-                    .colspan(3)
-                    .expandX()
-                    .align(Align.center)
-                    .padTop(contestPad * 0.5f)
-                    .row();
-            offer.addAction(Actions.repeat(RepeatAction.FOREVER, Actions.sequence(
-                    Actions.fadeIn(0.1f), Actions.delay(1.0f),
-                    Actions.fadeOut(0.1f)
-
-            )));
-        }
-
-        return frontTable;
+        return containerTable;
     }
 
     private void onEntryButtonClick(PokerContest contest) {

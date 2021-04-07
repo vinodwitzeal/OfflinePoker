@@ -20,14 +20,14 @@ public class OmahaContestPage extends PokerContestPage {
     public void onContestsFetched(Array<PokerContest> max5Contests, Array<PokerContest> max2Contests) {
         if (max5Contests!=null && max5Contests.size>0) {
             for (int i = 0; i < max5Contests.size; i++) {
-                contentTable.add(getContestTable(max5Contests.get(i))).row();
+                contentTable.add(getContestTable(max5Contests.get(i))).width(pokerStyle.width).padBottom(pokerStyle.bottomPad).row();
             }
         }
 
         if (max2Contests!=null && max2Contests.size>0) {
             contentTable.add().padTop(density * 10f).row();
             for (int i = 0; i < max2Contests.size; i++) {
-                contentTable.add(getContestTable(max2Contests.get(i))).row();
+                contentTable.add(getContestTable(max2Contests.get(i))).width(pokerStyle.width).padBottom(pokerStyle.bottomPad).row();
             }
         }
     }

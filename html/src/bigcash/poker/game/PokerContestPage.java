@@ -1,5 +1,6 @@
 package bigcash.poker.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -26,11 +27,13 @@ import bigcash.poker.network.PokerApi;
 import bigcash.poker.screens.PokerContestScreen;
 import bigcash.poker.utils.GeolocationPosition;
 import bigcash.poker.utils.PokerUtils;
+import bigcash.poker.widgets.MagicTable;
 import bigcash.poker.widgets.PageView;
 import bigcash.poker.widgets.StyledLabel;
 
 public abstract class PokerContestPage extends PageView.PageContent {
     public PokerContestScreen contestScreen;
+    public PokerStyle pokerStyle;
     public PokerContestStyle contestStyle;
     public PokerGame pokerGame;
     public float buttonWidth;
@@ -44,6 +47,7 @@ public abstract class PokerContestPage extends PageView.PageContent {
         this.processDialog = new ProcessDialog(contestScreen);
         this.contestScreen = contestScreen;
         this.contestStyle = contestScreen.contestStyle;
+        this.pokerStyle=contestScreen.pokerStyle;
         this.pokerGame = contestScreen.pokerGame;
         this.buttonWidth = contestScreen.width * 0.32f;
     }
@@ -65,69 +69,46 @@ public abstract class PokerContestPage extends PageView.PageContent {
     }
 
     public Table getContestTable(final PokerContest contest) {
-        final Table stackTable = new Table();
-        Table frontTable = new Table();
-        float downButtonHeight = contestStyle.bigLabelStyle.font.getCapHeight();
-        float downButtonWidth = downButtonHeight * contestStyle.downDrawable.getMinWidth() / contestStyle.downDrawable.getMinHeight();
-        frontTable.setBackground(contestStyle.background);
-        frontTable.pad(0, downButtonHeight * 4.8f, downButtonHeight * 0.5f, downButtonHeight);
+        Table containerTable = new Table();
+        Table prizeTable = new MagicTable(pokerStyle.prizeBackground);
+        prizeTable.add(new Label("\u20b9" + contest.getTotalWinnings(), pokerStyle.prizeStyle)).row();
+        prizeTable.add(new Label("PRIZE", pokerStyle.prizeLabelStyle));
 
+        containerTable.add(prizeTable).width(pokerStyle.prizeWidth).uniformY().fillY().padRight(2);
 
-        if (contest.getOnlineUsers() > 0) {
-            Table onlineTable = new Table();
-            onlineTable.add(new Image(contestStyle.onlineRegion)).height(downButtonHeight).width(downButtonHeight * 1.2f).padRight(downButtonHeight * 0.3f);
-            Label onlineUser = new Label(contest.getOnlineUsers() + " online", contestStyle.onlineStyle);
-            onlineTable.add(onlineUser);
-            frontTable.add(onlineTable)
-                    .colspan(3)
-                    .expandX()
-                    .align(Align.right)
-                    .padBottom(downButtonHeight * 0.5f)
-                    .padTop(downButtonHeight * 0.5f)
-                    .row();
-            onlineUser.addAction(Actions.repeat(RepeatAction.FOREVER, Actions.sequence(
-                    Actions.fadeIn(0.1f), Actions.delay(1.0f),
-                    Actions.fadeOut(0.1f)
+        Table contestTable = new MagicTable(pokerStyle.contestBackground);
+        contestTable.pad(pokerStyle.cardGap, 0, pokerStyle.cardGap, pokerStyle.cardGap);
+        Table formatTable = new Table();
+        formatTable.add(new Label("Bet Value", pokerStyle.labelStyle)).row();
+        formatTable.add(new Label(PokerUtils.getValue(contest.getBetValue())+"", pokerStyle.valueStyle));
+        contestTable.add(formatTable).expandX();
 
-            )));
-        } else {
-            Table onlineTable = new Table();
-            onlineTable.add().height(downButtonHeight).width(downButtonHeight * 1.2f).padRight(downButtonHeight * 0.3f);
-            Label onlineUser = new Label("", contestStyle.onlineStyle);
-            onlineTable.add(onlineUser);
-            frontTable.add(onlineTable)
-                    .colspan(3)
-                    .expandX()
-                    .align(Align.right)
-                    .padBottom(downButtonHeight * 0.5f)
-                    .padTop(downButtonHeight * 0.5f)
-                    .row();
-        }
+        Table playerTable = new Table();
+        playerTable.add(new Label("Max Players", pokerStyle.labelStyle)).row();
+        Table playerCountTable = new Table();
+        playerCountTable.add(new Image(pokerStyle.playerIconRegion)).width(pokerStyle.playerIconWidth).height(pokerStyle.playerIconHeight);
+        playerCountTable.add(new Label(" " + contest.getMaxUsersPerTable(), pokerStyle.valueStyle));
+        playerTable.add(playerCountTable);
+        contestTable.add(playerTable).expandX();
 
-        Table winnersTable = new Table();
-        winnersTable.add(new Label("Bet Value", contestStyle.bigLabelStyle)).row();
-        winnersTable.add(new Label(contest.getBetValue() + "", contestStyle.winnersStyle));
-
-        frontTable.add(winnersTable);
-
-
-        Table winningsTable = new Table();
-        winningsTable.add(new Label("Winnings", contestStyle.bigLabelStyle)).row();
-        final String numberAsString = contest.getTotalWinnings() + "";
-        winningsTable.add(new Label("\u20b9" + numberAsString, contestStyle.winningsStyle));
-        frontTable.add(winningsTable).align(Align.center).expandX();
 
         Table buttonTable = new Table();
-        buttonTable.setBackground(contestStyle.blueButton);
-
-        buttonTable.add(StyledLabel.getLabel("Entry Fee:", contestStyle.smallWhiteLabelStyle,contestStyle.fontStyle)).padRight(6 * density);
+        buttonTable.setBackground(pokerStyle.buttonBackground);
+        StyledLabel entryLabel = new StyledLabel("Entry Fee:", pokerStyle.entryLabelStyle);
+        entryLabel.outline(0.25f, Color.valueOf("00000022"));
+        buttonTable.add(entryLabel);
+        StyledLabel entryFeeLabel;
         if (contest.getMinJoiningFee() >= 1000) {
-            buttonTable.add(StyledLabel.getLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), contestStyle.pokerWhiteLabelStyleForHighEntry1,contestStyle.fontStyle));
+            entryFeeLabel = new StyledLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), pokerStyle.entryStyle);
         } else {
-            buttonTable.add(StyledLabel.getLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), contestStyle.pokerBigWhiteLabelStyle,contestStyle.fontStyle));
+            entryFeeLabel = new StyledLabel("\u20b9" + getAmountString(contest.getMinJoiningFee()) + "/" + getAmountString(contest.getMaxJoiningFee()), pokerStyle.entryStyle);
         }
 
-//        }
+        entryFeeLabel.outline(0.25f, Color.valueOf("00000022"));
+        buttonTable.add(entryFeeLabel);
+        contestTable.add(buttonTable).width(pokerStyle.buttonWidth).height(pokerStyle.buttonHeight);
+        containerTable.add(contestTable).uniformY().expandX().fill();
+
         buttonTable.setTouchable(Touchable.enabled);
         buttonTable.addListener(new ClickListener() {
             @Override
@@ -157,54 +138,7 @@ public abstract class PokerContestPage extends PageView.PageContent {
         });
 
 
-        frontTable.add(buttonTable).width(buttonWidth).align(Align.right).uniformY().fillY();
-
-        frontTable.row();
-
-        if (contest.getOfferText() != null && !contest.getOfferText().isEmpty()) {
-            Label offer = new Label("Offer: " + contest.getOfferText(), contestStyle.offerStyle);
-            frontTable.add(offer)
-                    .colspan(3)
-                    .expandX()
-                    .align(Align.center)
-                    .padTop(downButtonHeight * 0.5f)
-                    .row();
-            offer.addAction(Actions.repeat(RepeatAction.FOREVER, Actions.sequence(
-                    Actions.fadeIn(0.1f), Actions.delay(1.0f),
-                    Actions.fadeOut(0.1f)
-
-            )));
-        }
-
-        float titleHeight = downButtonHeight * 4;
-        float titleWidth = titleHeight * 1.32f;
-
-        Table titleTable = new Table();
-        titleTable.top().left();
-
-        Image titleImage = new Image();
-        if (contest.getImageUrl() != null) {
-            pokerGame.downloadImage(contest.getImageUrl(), titleImage);
-        }
-        titleTable.add(titleImage).width(titleWidth).height(titleHeight).padTop(titleHeight * 0.25f);
-
-        Table backTable = new Table();
-        backTable.add(frontTable).width(contestStyle.tableWidth).pad(titleHeight * 0.5f, downButtonHeight, 0, 0);
-
-        Table topTable = new Table();
-        topTable.top().right();
-        if (contest.getMaxUsersPerTable() == 2) {
-            topTable.add(new Label(contest.getMaxUsersPerTable() + " Players", contestStyle.twoPlayerStyle));
-        } else {
-            topTable.add(new Label(contest.getMaxUsersPerTable() + " Players", contestStyle.fivePlayerStyle));
-        }
-        Stack stack = new Stack();
-        stack.add(topTable);
-        stack.add(backTable);
-        stack.add(titleTable);
-
-        stackTable.add(stack).expand().fill().pad(4 * density);
-        return stackTable;
+        return containerTable;
     }
 
     private String getAmountString(float value) {

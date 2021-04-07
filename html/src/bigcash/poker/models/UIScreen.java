@@ -40,7 +40,7 @@ public abstract class UIScreen implements Screen, InputProcessor {
         this.orientation = PORTRAIT;
         this.pokerGame = pokerGame;
         this.screenName = screenName;
-        this.toastStyle = pokerGame.toastStyle;
+        this.toastStyle = new Toast.ToastStyle();
         PokerUtils.setScreen(screenName);
         dialogs = new ArrayList<UIDialog>();
         init();

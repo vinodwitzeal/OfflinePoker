@@ -26,7 +26,7 @@ public class PokerGame extends PokerGameAdapter {
     private TextureDownloader textureDownloader;
     public String qrId;
     public QrInfo qrInfo;
-    public Toast.ToastStyle toastStyle;
+    public boolean qrContestShown;
     public GwtApplicationConfiguration appConfig;
 
     public void setAppConfig(GwtApplicationConfiguration appConfig){
@@ -40,6 +40,7 @@ public class PokerGame extends PokerGameAdapter {
         if (qrId==null){
             qrId="";
         }
+
         PokerUtils.setScreen("LoadingScreen");
         FontPool.init();
         super.create();
@@ -61,6 +62,7 @@ public class PokerGame extends PokerGameAdapter {
 
     private void setContestScreen(){
         if (PokerUtils.setAppData()){
+            qrContestShown=false;
             setScreen(new PokerContestScreen(this));
         }
     }

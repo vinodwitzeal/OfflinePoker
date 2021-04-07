@@ -402,6 +402,7 @@ class ImageDiv{
         var image=document.createElement("img");
         image.style.width=width+"px";
         image.style.height=height+"px";
+        image.style.overflow="auto";
         // image.setAttribute("width",width+"");
         // image.setAttribute("height",height+"");
         image.src=url;
@@ -423,6 +424,7 @@ class ImageDiv{
 
 
     hide(){
+        console.log("Hide Page");
         this.imageDiv.style.display="none";
         this.image.style.width=this.width;
         this.image.style.height=this.height;
@@ -506,7 +508,7 @@ class MenuDialog{
         var image2=new ImageDiv(width,height,"https://pocket-syndicated-images.s3.amazonaws.com/5e9720121f721.jpg");
         var image1=new ImageDiv(width,height,"https://pocket-syndicated-images.s3.amazonaws.com/5f4d569ebaa8d.jpg");
 
-        this.pages=[image1,image2,image3,image4];
+        this.pages=[image4,image3,image2,image1];
         this.currentIndex=0;
 
         contentTable.appendChild(image1.imageDiv);
@@ -614,7 +616,7 @@ class MenuDialog{
             if (_that.currentIndex <= 0) return;
                 var index = _that.currentIndex - 1;
                 var currentPage = _that.pages[index];
-                currentPage.hide();
+                currentPage.resetPage();
                 _that.currentIndex = index;
                 _that.setPageNumber(_that.currentIndex + 1);
                 if (_that.currentIndex<=0){
@@ -718,8 +720,8 @@ class ProcessDialog{
        
        var processImage=document.createElement("img");
        processImage.src="img/process.gif";
-       processImage.style.height="100px";
-       processImage.style.width="100px";
+       processImage.style.height="60px";
+       processImage.style.width="60px";
        contentTable.appendChild(processImage);
        var label=new Label("Please Wait...","10px");
        label.child.style.color="#ffffff";
@@ -1009,6 +1011,19 @@ function callPost(url,params,callback){
 
 }
 
+function callPostWithBody(url,params,callback){
+    var data=JSON.stringify(params);
+    console.log(data);
+    var request=new XMLHttpRequest();
+    // request.withCredentials=true;
+    request.onload=function(){
+        callback(request.status,request.responseText);
+    }
+    request.open("POST",url);
+    request.setRequestHeader("Content-Type","application/json");
+    request.send(data);
+}
+
 function  getQRInfo(params) {
     const qs = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -1077,6 +1092,49 @@ function callAppLaunch(otp,userId,cookieData,processPop){
             window.appLaunchResponse=response;
             startMain();
         }else{
+            window.clearGameCookie();
+            processPop.hide();
+        }
+    });
+}
+
+function callGoogleLogin(authType,accessToken,processPop){
+    var params={
+        "authType":authType,
+        "deviceType":"ANDROID",
+        "appVersion":"93",
+        "deviceId":window.deviceId,
+        "androidId":window.androidId,
+        "androidVersion":"8.1.0",
+        "networkOperator":"VI",
+        "isRooted":"false",
+        "referralCode":"",
+        "aName":window.appName,
+        "pName":window.packageName,
+        "kH":window.keyHash,
+        "p":"/data/user/0/best.bulbsmash.cash/files",
+        "cp":"/data/data/best.bulbsmash.cash/files",
+        "utmSource":"",
+        "utmMedium":"",
+        "utmContent":"",
+        "utmTerm":"",
+        "utmCampaign":"",
+        "downloadLink":"",
+        "sId":"7eNuF20uEhbdi6IQ3fB3lg==",
+        "dn":"7eNuF20uEhbdi6IQ3fB3lg==",
+        "rbs":"false",
+        "googleLoginDTO":{
+            "accessToken":accessToken
+        }
+    }
+
+    callPostWithBody(baseUrl+"v6/user/login",params,function(state,response){
+        console.log(state);
+        console.log(response);
+        if(state==200){
+            var cookieData=window.setGameCookie(response);
+            parseCookie(cookieData,processPop);
+        }else{
             processPop.hide();
         }
     });
@@ -1096,8 +1154,8 @@ function callFBLogin(accessToken,processPop){
         "aName":window.appName,
         "pName":window.packageName,
         "kH":window.keyHash,
-        "p":"",
-        "cp":"",
+        "p":"/data/user/0/best.bulbsmash.cash/files",
+        "cp":"/data/data/best.bulbsmash.cash/files",
         "utmSource":"",
         "utmMedium":"",
         "utmContent":"",
@@ -1427,7 +1485,7 @@ class LoginScreen{
         if(width>height){
             screenWidth=screenHeight*9/16;
         }
-        var screen=new ModelTable(screenWidth,screenHeight);
+        var screen=new ModelTable();
         screen.setBackground("url('img/background.png')");
         screen.setSize(screenWidth+"px",screenHeight+"px");
 
@@ -1436,32 +1494,19 @@ class LoginScreen{
         screen.add(logoImage).width("70%").horizontalAlign("center").verticalAlign("top");
         screen.row();
 
-        this.logoImage=logoImage;
-
-        var hotelTable=new ModelTable("auto","auto")
-        var hotelImage=document.createElement("img");
-        hotelTable.add(hotelImage).width("45%");
-        hotelTable.row();
         var menuButton=document.createElement("img");
         menuButton.src="img/btn_menu.png";
-        hotelTable.add(menuButton).width("40%").horizontalAlign("center");
-        screen.add(hotelTable.table).width("100%").horizontalAlign("center");
+        screen.add(menuButton).width("40%").horizontalAlign("center");
         screen.row();
 
-        this.hotelTable=hotelTable;
-
-
-        var buttonTable=new ModelTable("auto","auto");
+        var buttonTable=new ModelTable();
         var facebookButton=document.createElement("img");
-        facebookButton.src="img/button_facebook.png";
-        buttonTable.add(facebookButton).width("100%").horizontalAlign("center").colspan(2);
+        facebookButton.src="img/btn_facebook.png";
+        buttonTable.add(facebookButton).width("100%").horizontalAlign("center");
         buttonTable.row();
-        var registerButton=document.createElement("img");
-        registerButton.src="img/button_register.png";
-        var loginButton=document.createElement("img");
-        loginButton.src="img/button_login.png";
-        buttonTable.add(registerButton).width("100%").horizontalAlign("center");
-        buttonTable.add(loginButton).width("100%").horizontalAlign("center");
+        var googleButton=document.createElement("img");
+        googleButton.src="img/btn_google.png";
+        buttonTable.add(googleButton).width("100%").horizontalAlign("center");
         buttonTable.row();
         var termLabel=new Label("By registering you accept you are <span class=\"register-link\">18+</span> and agree to our <a href=\"https://bigcash.live/terms.html\" target=\"_blank\" class=\"register-link\">*T&C.</a>",12);
         termLabel.child.style.color="#ffffff";
@@ -1469,6 +1514,26 @@ class LoginScreen{
         screen.add(buttonTable.table).width("80%").horizontalAlign("center");
         screen.row();
         this.buttonTable=buttonTable;
+
+        var loginTable=new ModelTable()
+        loginTable.table.style.backgroundColor="#00000088";
+        loginTable.table.style.borderRadius="7px";
+        loginTable.table.style.paddingLeft="10px";
+        loginTable.table.style.paddingRight="10px";
+        var label1=new Label("Already a member?",14);
+        label1.child.style.color="#ffffff";
+        loginTable.add(label1.child);
+        var label2=new Label("Sign In",14)
+        label2.child.style.color="#00f0ff";
+        label2.child.style.fontWeight="bold";
+        loginTable.add(label2.child);
+        label2.child.addEventListener("click",function(){
+            var loginPop=new LoginDialog(screenWidth,screenHeight);
+            loginPop.show();
+        });
+        
+        screen.add(loginTable.table).horizontalAlign("center");
+        screen.row();
 
 
 
@@ -1506,15 +1571,30 @@ class LoginScreen{
             });
         });
 
-        registerButton.addEventListener("click",function(){
-            var registerPop=new RegisterDialog(screenWidth,screenHeight);
-            registerPop.show();
+        googleButton.addEventListener("click",function(){
+            var processPop=new ProcessDialog();
+            processPop.show();
+            var provider=new firebase.auth.GoogleAuthProvider();
+            window.firebase.auth()
+            .signInWithPopup(provider)
+            .then(function(result){
+                var user = result.user;
+                user.getIdToken(true)
+                .then(function(token){
+                    callGoogleLogin("Google",token,processPop);
+                })
+                .catch(function(error){
+                    processPop.hide();
+                });
+                
+            })
+            .catch(function(error){
+                console.log(error);
+                processPop.hide();
+            });
+            // var registerPop=new RegisterDialog(screenWidth,screenHeight);
+            // registerPop.show();
         });
-
-        loginButton.addEventListener("click",function(){
-            var loginPop=new LoginDialog(screenWidth,screenHeight);
-            loginPop.show();
-        })
 
         $(window).resize(function(){
             console.log(window.innerWidth);
@@ -1522,12 +1602,15 @@ class LoginScreen{
         });
     }
     show(){
-        var cookieString=window.getCookie(cookieName);
+        var cookieString=window.getGameCookie();
         if(cookieString!=null && cookieString!=""){
             var cookieData=JSON.parse(cookieString);
             var processPop=new ProcessDialog();
             processPop.show();
             parseCookie(cookieData,processPop);
+        }else{
+            window.cookieData=null;
+            window.appLaunchResponse=null;
         }
     }
 }

@@ -51,7 +51,7 @@ public class HtmlLauncher extends GwtApplication {
                 final VerticalPanel preloaderPanel = new VerticalPanel();
                 preloaderPanel.setStyleName("gdx-preloader");
                 final Image logo = new Image("img/process.gif");
-                logo.setWidth("30%");
+                logo.setWidth("25%");
                 preloaderPanel.add(logo);
                 preloaderPanel.setCellHorizontalAlignment(logo, HasHorizontalAlignment.ALIGN_CENTER);
                 final Panel meterPanel = new SimplePanel();

@@ -1,13 +1,16 @@
 package bigcash.poker.game.holdem.widgets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -66,96 +69,142 @@ public class HoldemContestPage extends PokerContestPage {
 
     @Override
     public void onContestsFetched(Array<PokerContest> max5Contests, Array<PokerContest> max2Contests) {
-        contentTable.add(getPrivateContestTable(pokerGame.qrInfo)).expandX().fillX().padBottom(density*4).row();
+        addPrivateContestTable(contentTable,pokerGame.qrInfo);
         if (max5Contests!=null && max5Contests.size>0) {
             for (int i = 0; i < max5Contests.size; i++) {
-                contentTable.add(getContestTable(max5Contests.get(i))).row();
+                contentTable.add(getContestTable(max5Contests.get(i))).width(pokerStyle.width).padBottom(pokerStyle.bottomPad).row();
             }
         }
         if (max2Contests!=null && max2Contests.size>0) {
             contentTable.add().padTop(density * 10f).row();
             for (int i = 0; i < max2Contests.size; i++) {
-                contentTable.add(getContestTable(max2Contests.get(i))).row();
+                contentTable.add(getContestTable(max2Contests.get(i))).width(pokerStyle.width).padBottom(pokerStyle.bottomPad).row();
             }
         }
     }
 
 
-    public Table getPrivateContestTable(QrInfo qrInfo) {
-        final Table stackTable = new Table();
-        Table frontTable = new Table();
-        TextureRegion qrBackground=contestScreen.uiAtlas.findRegion("private_contest_bg");
-        float tableHeight=contestStyle.tableWidth*qrBackground.getRegionHeight()/qrBackground.getRegionWidth();
-        TextureRegionDrawable background= TextureDrawable.getDrawable(qrBackground,contestStyle.tableWidth,tableHeight);
+    public void addPrivateContestTable(Table contentTable,QrInfo qrInfo) {
+        WidgetGroup widgetGroup=new WidgetGroup();
+        Image backgroundImage=new Image(pokerStyle.offlineBackgroundTexture);
+        backgroundImage.setSize(pokerStyle.backgroundWidth,pokerStyle.backgroundHeight);
+        backgroundImage.setPosition(pokerStyle.backgroundX,pokerStyle.backgroundY);
+        widgetGroup.addActor(backgroundImage);
 
-        float downButtonHeight = contestStyle.bigLabelStyle.font.getCapHeight();
-        float downButtonWidth = downButtonHeight * contestStyle.downDrawable.getMinWidth() / contestStyle.downDrawable.getMinHeight();
-        frontTable.setBackground(background);
-        frontTable.pad(0, downButtonHeight*4.8f,0, downButtonHeight*2);
-
-        tableLogoImage = new Image();
-        float logoImageSize=tableHeight*0.6f;
+        tableLogoImage=new Image();
+        tableLogoImage.setSize(pokerStyle.offlineIconSize,pokerStyle.offlineIconSize);
+        tableLogoImage.setPosition(pokerStyle.offlineIconX,pokerStyle.offlineIconY);
+        widgetGroup.addActor(tableLogoImage);
         if (qrInfo!=null) {
-            String setTableLogoUrl = qrInfo.getLogoImageUrl();
-            pokerGame.downloadImage(setTableLogoUrl, tableLogoImage);
+            pokerGame.downloadImage(qrInfo.getLogoImageUrl(), tableLogoImage);
         }
-        frontTable.add(tableLogoImage).width(logoImageSize).height(logoImageSize).padTop(7*density).padRight(4*density).expandX();
 
-        Table buttonTable = new Table();
-        NinePatchDrawable redButton = new NinePatchDrawable(new NinePatch(contestScreen.uiAtlas.findRegion("scan_btn_bg"), 8, 8, 8, 8));
-        buttonTable.setBackground(redButton);
-        float sidePad=4*density;
-        float bottomPad=6*density;
-        buttonTable.pad(sidePad,sidePad,bottomPad,sidePad);
-
-        TextureRegion qrTexture =contestScreen.uiAtlas.findRegion("ic_qr_code");
-        float qrHeight=contestStyle.qrLabelStyle.font.getLineHeight();
-        float qrWidth=qrHeight*qrTexture.getRegionWidth()/qrTexture.getRegionHeight();
-        buttonTable.add(new Image(qrTexture)).height(qrHeight).width(qrWidth);
-        buttonLabel=new Label("",contestStyle.qrLabelStyle);
+        Table scanButton=new Table();
+        scanButton.setBackground(pokerStyle.scanButtonBackground);
+        buttonLabel=new Label("",pokerStyle.scanButtonStyle);
         if (qrInfo==null){
             buttonLabel.setText("Scan");
 
         }else {
             buttonLabel.setText("Play");
         }
+        scanButton.add(buttonLabel);
+        scanButton.setSize(pokerStyle.scanButtonWidth,pokerStyle.scanButtonHeight);
+        scanButton.setPosition(pokerStyle.scanButtonX,pokerStyle.scanButtonY);
+        widgetGroup.addActor(scanButton);
 
-        buttonTable.add(buttonLabel).padLeft(6 * density);
-
-        buttonTable.setTouchable(Touchable.enabled);
-        buttonTable.addListener(new ClickListener() {
+        scanButton.setTouchable(Touchable.enabled);
+        scanButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 onPrivateButtonClicked(tableLogoImage,buttonLabel);
             }
         });
 
+        Image titleImage=new Image();
+        titleImage.setSize(pokerStyle.logoWidth,pokerStyle.logoHeight);
+        titleImage.setPosition(pokerStyle.logoX,pokerStyle.logoY);
+        widgetGroup.addActor(titleImage);
+        pokerGame.downloadImage("https://1101993670.rsc.cdn77.org/img/private_table_logo.png", titleImage);
 
-        frontTable.add(buttonTable).width(buttonWidth * 0.7f).height(height *.05f).align(Align.right);
+        contentTable.add(widgetGroup).width(pokerStyle.offlineWidth).height(pokerStyle.offlineHeight).padTop(pokerStyle.topPad).padBottom(pokerStyle.bottomPad).row();
 
 
-        float titleHeight = downButtonHeight * 4;
-        float titleWidth = titleHeight * 1.32f;
 
-        Table titleTable = new Table();
-        titleTable.top().left();
-
-        Image titleImage = new Image();
-//        if (contest.getImageUrl() != null) {
-        String setimageUrl = "https://1101993670.rsc.cdn77.org/img/private_table_logo.png";
-        pokerGame.downloadImage(setimageUrl, titleImage);
+//        final Table stackTable = new Table();
+//        Table frontTable = new Table();
+//        TextureRegion qrBackground=contestScreen.uiAtlas.findRegion("private_contest_bg");
+//        float tableHeight=contestStyle.tableWidth*qrBackground.getRegionHeight()/qrBackground.getRegionWidth();
+//        TextureRegionDrawable background= TextureDrawable.getDrawable(qrBackground,contestStyle.tableWidth,tableHeight);
 //
-        titleTable.add(titleImage).width(titleWidth).height(titleHeight).padTop(titleHeight * 0.25f);
-
-        Table backTable = new Table();
-        backTable.add(frontTable).width(contestStyle.tableWidth).height(tableHeight).pad(titleHeight*0.5f, downButtonHeight, 0, 0);
-
-        Stack stack = new Stack();
-        stack.add(backTable);
-        stack.add(titleTable);
-
-        stackTable.add(stack).expand().fill().pad(4 * density);
-        return stackTable;
+//        float downButtonHeight = contestStyle.bigLabelStyle.font.getCapHeight();
+//        float downButtonWidth = downButtonHeight * contestStyle.downDrawable.getMinWidth() / contestStyle.downDrawable.getMinHeight();
+//        frontTable.setBackground(background);
+//        frontTable.pad(0, downButtonHeight*4.8f,0, downButtonHeight*2);
+//
+//        tableLogoImage = new Image();
+//        float logoImageSize=tableHeight*0.6f;
+//        if (qrInfo!=null) {
+//            String setTableLogoUrl = qrInfo.getLogoImageUrl();
+//            pokerGame.downloadImage(setTableLogoUrl, tableLogoImage);
+//        }
+//        frontTable.add(tableLogoImage).width(logoImageSize).height(logoImageSize).padTop(7*density).padRight(4*density).expandX();
+//
+//        Table buttonTable = new Table();
+//        NinePatchDrawable redButton = new NinePatchDrawable(new NinePatch(contestScreen.uiAtlas.findRegion("scan_btn_bg"), 8, 8, 8, 8));
+//        buttonTable.setBackground(redButton);
+//        float sidePad=4*density;
+//        float bottomPad=6*density;
+//        buttonTable.pad(sidePad,sidePad,bottomPad,sidePad);
+//
+//        TextureRegion qrTexture =contestScreen.uiAtlas.findRegion("ic_qr");
+//        float qrHeight=contestStyle.qrLabelStyle.font.getLineHeight();
+//        float qrWidth=qrHeight*qrTexture.getRegionWidth()/qrTexture.getRegionHeight();
+//        buttonTable.add(new Image(qrTexture)).height(qrHeight).width(qrWidth);
+//        buttonLabel=new Label("",contestStyle.qrLabelStyle);
+//        if (qrInfo==null){
+//            buttonLabel.setText("Scan");
+//
+//        }else {
+//            buttonLabel.setText("Play");
+//        }
+//
+//        buttonTable.add(buttonLabel).padLeft(6 * density);
+//
+//        buttonTable.setTouchable(Touchable.enabled);
+//        buttonTable.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                onPrivateButtonClicked(tableLogoImage,buttonLabel);
+//            }
+//        });
+//
+//
+//        frontTable.add(buttonTable).width(buttonWidth * 0.7f).height(height *.05f).align(Align.right);
+//
+//
+//        float titleHeight = downButtonHeight * 4;
+//        float titleWidth = titleHeight * 1.32f;
+//
+//        Table titleTable = new Table();
+//        titleTable.top().left();
+//
+//        Image titleImage = new Image();
+////        if (contest.getImageUrl() != null) {
+//        String setimageUrl = "https://1101993670.rsc.cdn77.org/img/private_table_logo.png";
+//        pokerGame.downloadImage(setimageUrl, titleImage);
+////
+//        titleTable.add(titleImage).width(titleWidth).height(titleHeight).padTop(titleHeight * 0.25f);
+//
+//        Table backTable = new Table();
+//        backTable.add(frontTable).width(contestStyle.tableWidth).height(tableHeight).pad(titleHeight*0.5f, downButtonHeight, 0, 0);
+//
+//        Stack stack = new Stack();
+//        stack.add(backTable);
+//        stack.add(titleTable);
+//
+//        stackTable.add(stack).expand().fill().pad(4 * density);
+//        return stackTable;
     }
 
     private void onPrivateButtonClicked(Image logoImage,Label buttonLabel){
@@ -173,7 +222,7 @@ public class HoldemContestPage extends PokerContestPage {
                             processDialog.hide();
                             pokerGame.downloadImage(qrInfo.getLogoImageUrl(),logoImage);
                             buttonLabel.setText("Play");
-                            new PrivateContestDialog(contestScreen,qrInfo,contestStyle).show(contestScreen.stage);
+                            new PrivateContestDialog(contestScreen,qrInfo,pokerStyle).show(contestScreen.stage);
                         }
 
                         @Override
@@ -199,7 +248,7 @@ public class HoldemContestPage extends PokerContestPage {
                 }
             }).show();
         }else {
-            new PrivateContestDialog(contestScreen,pokerGame.qrInfo,contestStyle).show(contestScreen.stage);
+            new PrivateContestDialog(contestScreen,pokerGame.qrInfo,pokerStyle).show(contestScreen.stage);
         }
     }
 
