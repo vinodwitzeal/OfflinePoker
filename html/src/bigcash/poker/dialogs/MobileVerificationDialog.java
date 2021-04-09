@@ -66,28 +66,22 @@ public class MobileVerificationDialog extends UIDialog {
         float closeSize = width * 0.1f;
         Table dataTable = new Table();
 
-        Gdx.app.error("Passed","65");
         TextureRegion circleTexture = uiAtlas.findRegion("d_circle");
         TextureRegion shadowTexture = uiAtlas.findRegion("shadow");
         TextureRegion bg_phone = uiAtlas.findRegion("icon_phone");
         TextureRegion logoTexture = uiAtlas.findRegion("icon_true");
         float logoWidth = dialogWidth * 0.1f;
         float logoHeight = logoWidth * logoTexture.getRegionHeight() / logoTexture.getRegionWidth();
-        Gdx.app.error("Passed","72");
 
         NinePatch whiteNinePatch = new NinePatch(uiAtlas.findRegion("bg_dialog"), 30, 30, 30, 30);
         NinePatchDrawable whitebackground = new NinePatchDrawable(whiteNinePatch);
         whitebackground.setMinWidth(60);
         whitebackground.setMinHeight(60);
 
-        Gdx.app.error("Passed","79");
-
         NinePatch greyNinePatch = new NinePatch(uiAtlas.findRegion("bg_bottom"), 30, 30, 30, 30);
         NinePatchDrawable greybackground = new NinePatchDrawable(greyNinePatch);
         greybackground.setMinWidth(60);
         greybackground.setMinHeight(60);
-
-        Gdx.app.error("Passed","86");
 
         Table topTable = new Table();
         topTable.setBackground(whitebackground);
@@ -233,8 +227,6 @@ public class MobileVerificationDialog extends UIDialog {
 //                });
 //            }
 //        });
-//
-//        Gdx.app.error("Passed",219+"");
 
         Table verifyTable = new Table();
         NinePatchDrawable greenDrawable = new NinePatchDrawable(new NinePatch(uiAtlas.findRegion("button_green"), 12, 12, 12, 16));
@@ -281,8 +273,6 @@ public class MobileVerificationDialog extends UIDialog {
         float sidePad = closeSize * 0.4f;
         backTable.add(dataTable).width(width * 0.9f).pad(sidePad, sidePad, sidePad, sidePad);
 
-        Gdx.app.error("Passed","272");
-
         Table closeTable = new Table();
         closeTable.top().right();
         TextureRegion closeTexture = uiAtlas.findRegion("icon_close");
@@ -295,8 +285,6 @@ public class MobileVerificationDialog extends UIDialog {
                 hide();
             }
         });
-
-        Gdx.app.error("Passed","287");
 
         Stack stack = new Stack();
         stack.add(backTable);

@@ -535,7 +535,6 @@ public class HoldemPlayer extends Group {
 
     public void removeMoveState(boolean onResult) {
         lastMoveStatus="";
-        Gdx.app.log(playerId,playerState+"");
         if (onResult){
             if (playerState == PokerConstants.PLAYER_PLAYING || playerState==PokerConstants.PLAYER_ALL_IN || playerState==PokerConstants.PLAYER_FOLDED) {
                 stateLabel.setText("");

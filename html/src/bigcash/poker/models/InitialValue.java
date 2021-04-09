@@ -16,8 +16,6 @@ public class InitialValue {
         try {
             decrypt = PokerUtils.decrypt(value, GamePreferences.instance().getOtp());
         } catch (Exception e) {
-            Gdx.app.error("Decrypt", e.getMessage());
-            Gdx.app.error("Value", value);
         }
         return decrypt;
     }

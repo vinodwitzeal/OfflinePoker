@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 
 public abstract class GdxListener<T> {
 
+    public void setProcessing(){
+
+    }
+
     public void setSuccess(final T t){
         Gdx.app.postRunnable(new Runnable() {
             @Override

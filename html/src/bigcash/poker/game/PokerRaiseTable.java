@@ -69,8 +69,6 @@ public abstract class PokerRaiseTable extends Table {
         this.keypadBackground = new ColorDrawable(new NinePatch(gameAtlas.findRegion("bg_keypad"), 24, 24, 28, 28), Color.BLUE);
         this.backgroundColor = Color.valueOf("00000099");
 
-        Gdx.app.error("PokerRaiseTable", "1");
-
         Font buttonFont = FontPool.obtain(FontType.ROBOTO_BOLD, 6);
         buttonHeight = buttonFont.getCapHeight() * 3;
         buttonLabelStyle = new Label.LabelStyle();
@@ -100,7 +98,6 @@ public abstract class PokerRaiseTable extends Table {
         };
         numberKeyboard = new NumberKeyboard();
 
-        Gdx.app.error("PokerRaiseTable", "2");
         TextureRegion arrowTexture = gameAtlas.findRegion("img_arrow");
         float arrowHeight = labelStyle.font.getCapHeight();
         float arrowWidth = arrowHeight * arrowTexture.getRegionWidth() / arrowTexture.getRegionHeight();
@@ -121,8 +118,6 @@ public abstract class PokerRaiseTable extends Table {
 
         minButton = new RaiseTableButton(minBetAmount, "MIN");
 
-        Gdx.app.error("PokerRaiseTable", "3");
-
         plusButton = new MagicTable(buttonBackground);
         plusButton.setTouchable(Touchable.enabled);
         plusButton.add(new Label("+", buttonLabelStyle));
@@ -139,12 +134,9 @@ public abstract class PokerRaiseTable extends Table {
         final PokerSlider.SliderStyle sliderStyle = new PokerSlider.SliderStyle();
         sliderStyle.background = new VerticalEqualDrawable(gameAtlas.findRegion("raise_bg_slider"), 18);
         sliderStyle.background.setMinWidth(buttonHeight / 4f);
-        sliderStyle.knob = knobDrawable;
-
-        Gdx.app.error("PokerRaiseTable", "4");
+        sliderStyle.knob = knobDrawable;;
 
         slider = new PokerSlider(minBetAmount, maxBetAmount, stepSize, true, sliderStyle);
-
 
         slider.addListener(new ChangeListener() {
             @Override
@@ -226,8 +218,6 @@ public abstract class PokerRaiseTable extends Table {
 
         add(stack);
         errorTable = new ErrorTable(new NinePatchDrawable(new NinePatch(gameAtlas.findRegion("bg_dialog_rounded"), 8, 8, 8, 8)), "000000bb");
-
-        Gdx.app.error("PokerRaiseTable", "5");
     }
 
     public void selectAll(boolean selected) {

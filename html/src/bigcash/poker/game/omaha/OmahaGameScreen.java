@@ -686,8 +686,6 @@ public class OmahaGameScreen extends PokerAbstractScreen {
             }
             mainTable.addActor(gameButton);
             startX = startX + 2 * buttonPad + maxButtonWidth;
-
-            Gdx.app.error(gameButton.getName(), "State:" + gameButton.getState());
         }
 
         if (raiseButton.getState() != OmahaButton.NO_ACTION) {
@@ -701,7 +699,6 @@ public class OmahaGameScreen extends PokerAbstractScreen {
     public void sendMove(String moveType, float betAmount) {
         if (omahaWorld.isUserTurn()) {
             if (moveType.matches(PokerConstants.MOVE_CHECK)) {
-                Gdx.app.error("SendMove PokerGameScreen", moveType);
             }
             omahaWorld.omahaUserPlayer.cancelTimer();
             omahaWorld.stopTickSound();
@@ -845,13 +842,8 @@ public class OmahaGameScreen extends PokerAbstractScreen {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                warpController.reset();
                 pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                    @Override
-//                    public void onTimeOut() {
-//
-//                    }
-//                });
             }
         });
     }
@@ -897,13 +889,8 @@ public class OmahaGameScreen extends PokerAbstractScreen {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                warpController.reset();
                 pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                    @Override
-//                    public void onTimeOut() {
-//                        pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                    }
-//                });
             }
         });
     }
@@ -916,13 +903,8 @@ public class OmahaGameScreen extends PokerAbstractScreen {
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
+                    warpController.reset();
                     pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                    PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                        @Override
-//                        public void onTimeOut() {
-//                            pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                        }
-//                    });
                 }
             });
         }
@@ -1006,7 +988,6 @@ public class OmahaGameScreen extends PokerAbstractScreen {
 
     @Override
     public void onMoveCompleted(final MoveEvent moveEvent) {
-        Gdx.app.error("onMoveCompleted", new Json().prettyPrint(moveEvent));
         if (omahaWorld.getGameState() != PokerConstants.GAME_RUNNING || screenPaused) return;
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -1052,7 +1033,6 @@ public class OmahaGameScreen extends PokerAbstractScreen {
 
     @Override
     public void handleServerMessage(final String messageData, String sender) {
-        Gdx.app.error("Server Message", new JsonReader().parse(messageData).toJson(JsonWriter.OutputType.json));
         if (screenPaused) {
             parseTimerMessage(messageData);
             return;
@@ -1088,14 +1068,10 @@ public class OmahaGameScreen extends PokerAbstractScreen {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        Gdx.app.error("Server Message", "MESSAGE_LEAVE");
                         String leftUserId = message.getString("leftUserId");
-                        Gdx.app.error("Server Message", leftUserId);
                         if (leftUserId.matches(warpController.myID)) {
-                            Gdx.app.error("MESSAGE_LEAVE1", leftUserId);
                             onRoomLeft();
                         } else {
-                            Gdx.app.error("MESSAGE_LEAVE2", leftUserId);
                             onUserLeft(leftUserId);
                         }
                     }
@@ -1265,7 +1241,6 @@ public class OmahaGameScreen extends PokerAbstractScreen {
     }
 
     public void setRemainingGameStartTimeOnPause(long remainingTimeOnPause) {
-        //  Gdx.app.error(pokerWorld.getGameState()+"",screenPaused+"-"+remainingTimeOnPause);
         if (screenPaused && omahaWorld.getGameState() == PokerConstants.GAME_REST && remainingTimeOnPause >= 3000) {
             warpController.disconnect();
         }

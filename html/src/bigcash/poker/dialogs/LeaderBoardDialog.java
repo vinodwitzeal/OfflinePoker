@@ -188,8 +188,8 @@ public class LeaderBoardDialog extends UIDialog {
                 if (casualLeague==null){
                     pageTable.onRefreshError("No data available");
                 }else {
-                    contestScreen.setWinnings(casualLeague.getTotalWinningAmount());
-                    totalWinningLabel.setText("\u20b9 "+ PokerUtils.formatValue(casualLeague.getTotalWinningAmount()));
+//                    contestScreen.setWinnings(casualLeague.getTotalWinningAmount());
+//                    totalWinningLabel.setText("\u20b9 "+ PokerUtils.formatValue(casualLeague.getTotalWinningAmount()));
                     HashMap<Integer,CasualPlayerDto> playerDtoHashMap=casualLeague.getCasualPlayerDtos();
                     CasualPlayerDto firstPlayerData=playerDtoHashMap.get(1);
                     CasualPlayerDto secondPlayerData=playerDtoHashMap.get(2);
@@ -267,6 +267,7 @@ public class LeaderBoardDialog extends UIDialog {
         }
 
         public void setData(CasualPlayerDto playerDto){
+            if (playerDto==null)return;
             screen.pokerGame.downloadImage(playerDto.getUserImageUrl(),image);
             nameLabel.setText(playerDto.getUserName());
             winningLabel.setText("\u20b9 "+ PokerUtils.formatValue(playerDto.getWinningAmount()));

@@ -25,7 +25,6 @@ public class OmahaResultMessage {
 
     public OmahaResultMessage(OmahaWorld pokerWorld, JsonValue jsonValue) {
         JsonValue resultData = new JsonReader().parse(jsonValue.toJson(JsonWriter.OutputType.json));
-        Gdx.app.error("Poker Result", resultData.prettyPrint(JsonWriter.OutputType.json, 1));
         if (resultData.has("openCards")) {
             openCards = resultData.get("openCards").asIntArray();
         }

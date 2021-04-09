@@ -18,7 +18,6 @@ public class PokerContest {
     private int maxUsersPerTable;
 
     public PokerContest(JsonValue jsonValue){
-        Gdx.app.log("Poker Contest", jsonValue.toJson(JsonWriter.OutputType.json));
         contestId = jsonValue.getInt("contestId");
         contestType = jsonValue.getString("contestType");
         gameType=jsonValue.getString("gameType","");

@@ -94,8 +94,6 @@ public class PokerApi {
                 .url(POKER_BASE_URL + VERSION_1 + POKER_LIVE_API)
                 .build();
 
-        Gdx.app.log("Params", params.toString());
-
         Gdx.net.sendHttpRequest(httpGet, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -145,7 +143,6 @@ public class PokerApi {
 
 
     private static void parsePokerContestApi(String result) {
-        Gdx.app.error("ContestApi", result);
         pokerContestMax2.clear();
         pokerContestMax5.clear();
         JsonValue resultJson = new JsonReader().parse(result);
@@ -200,8 +197,6 @@ public class PokerApi {
                 .url(POKER_BASE_URL + VERSION_1 + POKER_LIVE_API)
                 .build();
 
-        Gdx.app.log("Params", params.toString());
-
         Gdx.net.sendHttpRequest(httpGet, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -248,7 +243,6 @@ public class PokerApi {
     }
 
     private static QRContests parseQrContests(String result,int qrContestId) {
-        Gdx.app.error("ContestApi", result);
         QRContests qrContests=new QRContests(qrContestId);
         JsonValue resultJson = new JsonReader().parse(result);
         JsonValue jsonValue = resultJson.get(JsonParseKeys.CONTEST_DTOS);
@@ -300,8 +294,6 @@ public class PokerApi {
 //        if (mockApps != null && !mockApps.isEmpty()) {
 //            params.put("mockApps", mockApps);
 //        }
-
-        Gdx.app.log("Locations Params", params.toString());
 
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         Net.HttpRequest httpPost = requestBuilder.newRequest()
@@ -391,8 +383,6 @@ public class PokerApi {
         params.put("transactionId", transactionId);
         params.put("qrId", qrId);
 
-        Gdx.app.error("QR Params",params.toString());
-
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         Net.HttpRequest httpPost = requestBuilder.newRequest()
                 .method(Net.HttpMethods.POST)
@@ -406,7 +396,6 @@ public class PokerApi {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 String resultString = httpResponse.getResultAsString();
-                Gdx.app.error("QR Info0",resultString);
                 if (errorCodeHandling(statusCode)) {
                     if (resultString!=null && !resultString.isEmpty()) {
                         listener.setSuccess(new QrInfo(qrId, resultString));

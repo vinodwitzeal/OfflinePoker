@@ -240,7 +240,6 @@ public class HoldemWorld extends Group {
 
     public void updateMaxBet(float amount) {
         if (amount > maxBet) {
-            Gdx.app.log("maxBetAmount====", amount + "");
             this.maxBet = PokerUtils.getValue(amount);
         }
     }
@@ -982,7 +981,6 @@ public class HoldemWorld extends Group {
             screen.showTimer(pokerJoinMessage.timerMessage);
         } else {
             if (gameState == PokerConstants.GAME_REST) {
-                // Gdx.app.log("Game Begins Shortly",playerMap.size()+"");
                 if (playerMap == null || playerMap.size() == 1) {
                     screen.showMessage("Waiting for players");
                 } else {
@@ -1378,7 +1376,6 @@ public class HoldemWorld extends Group {
     public void handleRecoverResponse(JsonValue recoverResponse, float maxBetAmount) {
         resetOnRecover();
         HoldemRecoverMessage holdemRecoverMessage = new HoldemRecoverMessage(recoverResponse, maxBetAmount);
-        Gdx.app.log("maxBetAmount", maxBetAmount + "");
         String[] sittingOrder = getSittingOrder(holdemRecoverMessage.joinedPlayersArray);
         for (int i = 1; i < sittingOrder.length; i++) {
             String playerId = sittingOrder[i];
@@ -1432,7 +1429,6 @@ public class HoldemWorld extends Group {
             gameState = PokerConstants.GAME_REST;
         }
         setMaxBet(0.0f);
-        Gdx.app.log("maxBetAmount===>", holdemRecoverMessage.maxBetAmount + "");
         updateMaxBet(holdemRecoverMessage.maxBetAmount);
 
         if (holdemRecoverMessage.userCards != null && holdemRecoverMessage.userCards.length > 0
@@ -1904,17 +1900,14 @@ public class HoldemWorld extends Group {
     PokerAddBalanceDialog pokerAddBalanceDialog;
 
     public void callAutoRefillApiInBackGround() {
-        Gdx.app.log("callAutoRefillApiInBackGround", playerMap.get(warpController.myID).balanceAmount + "-" + warpController.getBigBlind());
         if (playerMap.get(warpController.myID).balanceAmount <= warpController.getBigBlind()) {
             if (screen.autoRefillButton.isChecked()) {
                 float amount = warpController.getMaxAddAmount();
-                Gdx.app.log("callAutoRefillApiInBackGround", Constant.userProfile.getPaytmBalance() + "-" + amount);
 
                 if (Constant.userProfile.getPaytmBalance() >= warpController.getMinAddAmount()) {
                     if (Constant.userProfile.getPaytmBalance() < amount) {
                         amount = Constant.userProfile.getPaytmBalance();
                     }
-                    Gdx.app.log("callAutoRefillApiInBackGround", playerMap.get(warpController.myID).balanceAmount + "-" + warpController.getBigBlind());
                     callAutoRefillApi(false, amount, false);
                 }
             }
@@ -1951,7 +1944,6 @@ public class HoldemWorld extends Group {
                         public void hide() {
                             super.hide();
                             if (!isAddItemClick) {
-                                Gdx.app.log("onConnectionFailed ", "requestAutoFill");
                                 HoldemWorld.this.screen.onConnectionFailed();
                             }
                         }
@@ -1983,7 +1975,6 @@ public class HoldemWorld extends Group {
                     public void hide() {
                         super.hide();
                         if (!isAddItemClick) {
-                            Gdx.app.log("onConnectionFailed ", "requestAutoFill2");
                             HoldemWorld.this.screen.onConnectionFailed();
                         }
                     }
@@ -2007,20 +1998,17 @@ public class HoldemWorld extends Group {
                             }
                             callAutoRefillApi(true, addAmount, true);
                         } else {
-                            Gdx.app.log("onConnectionFailed ", "cashAdd");
                             screen.onConnectionFailed();
                         }
                     }
 
                     @Override
                     public void onFail(String reason) {
-                        Gdx.app.log("onConnectionFailed ", "cashAdd1");
                         screen.onConnectionFailed();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
-                        Gdx.app.log("onConnectionFailed ", "cashAdd2");
                         screen.onConnectionFailed();
                     }
                 }).show(getStage());

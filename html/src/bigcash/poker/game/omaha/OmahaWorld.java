@@ -742,7 +742,6 @@ public class OmahaWorld extends Group {
             screen.showTimer(joinMessage.timerMessage);
         }else{
             if(gameState == PokerConstants.GAME_REST) {
-               // Gdx.app.error("Game Begins Shortly",playerMap.size()+"");
                 if(playerMap == null || playerMap.size()==1){
                     screen.showMessage("Waiting for players");
                 }else {
@@ -1672,17 +1671,13 @@ public class OmahaWorld extends Group {
     PokerAddBalanceDialog addPokerWalletBalance;
 
     public void callAutoRefillApiInBackGround() {
-        Gdx.app.error("callAutoRefillApiInBackGround",playerMap.get(warpController.myID).balanceAmount+"-"+warpController.getBigBlind());
         if (playerMap.get(warpController.myID).balanceAmount <= warpController.getBigBlind()) {
             if (screen.autoRefillButton.isChecked()) {
                 float amount = warpController.getMaxAddAmount();
-                Gdx.app.error("callAutoRefillApiInBackGround",Constant.userProfile.getPaytmBalance()+"-"+amount);
-
                 if (Constant.userProfile.getPaytmBalance() >= warpController.getMinAddAmount()) {
                     if (Constant.userProfile.getPaytmBalance() < amount) {
                         amount = Constant.userProfile.getPaytmBalance();
                     }
-                    Gdx.app.error("callAutoRefillApiInBackGround",playerMap.get(warpController.myID).balanceAmount+"-"+warpController.getBigBlind());
                     callAutoRefillApi(false, amount, false);
                 }
             }
@@ -1719,7 +1714,6 @@ public class OmahaWorld extends Group {
                         public void hide() {
                             super.hide();
                             if (!isAddItemClick) {
-                                Gdx.app.error("onConnectionFailed ","requestAutoFill");
                                 OmahaWorld.this.screen.onConnectionFailed();
                             }
                         }
@@ -1751,7 +1745,6 @@ public class OmahaWorld extends Group {
                     public void hide() {
                         super.hide();
                         if (!isAddItemClick) {
-                            Gdx.app.error("onConnectionFailed ","requestAutoFill2");
                             OmahaWorld.this.screen.onConnectionFailed();
                         }
                     }
@@ -1775,20 +1768,17 @@ public class OmahaWorld extends Group {
                             }
                             callAutoRefillApi(true, addAmount, true);
                         } else {
-                            Gdx.app.error("onConnectionFailed ","cashAdd");
                             screen.onConnectionFailed();
                         }
                     }
 
                     @Override
                     public void onFail(String reason) {
-                        Gdx.app.error("onConnectionFailed ","cashAdd1");
                         screen.onConnectionFailed();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
-                        Gdx.app.error("onConnectionFailed ","cashAdd2");
                         screen.onConnectionFailed();
                     }
                 }).show(getStage());
@@ -1856,7 +1846,6 @@ public class OmahaWorld extends Group {
     }
 
     public void setMinRaiseBet(float minRaiseBet) {
-        Gdx.app.error("minRaiseBet",minRaiseBet+"");
         this.minRaiseBet = minRaiseBet;
     }
 
@@ -1865,7 +1854,6 @@ public class OmahaWorld extends Group {
     }
 
     public void setMaxRaiseBet(float maxRaiseBet) {
-        Gdx.app.error("maxRaiseBet",maxRaiseBet+"");
         this.maxRaiseBet = maxRaiseBet;
     }
 }

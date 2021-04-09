@@ -1082,6 +1082,7 @@ function callAppLaunch(otp,userId,cookieData,processPop){
             window.appLaunchResponse=response;
             startMain();
         }else{
+            processPop.hide();
             window.clearGameCookie();
            
         }

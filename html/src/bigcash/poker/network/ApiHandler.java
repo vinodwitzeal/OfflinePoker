@@ -33,6 +33,7 @@ import bigcash.poker.models.ReferralLeagueDetail;
 import bigcash.poker.models.ReferralPlayerDto;
 import bigcash.poker.models.UIScreen;
 import bigcash.poker.models.UserProfile;
+import bigcash.poker.paytm.PaytmWindow;
 import bigcash.poker.screens.PokerContestScreen;
 import bigcash.poker.utils.GamePreferences;
 import bigcash.poker.utils.JsonParseKeys;
@@ -189,8 +190,6 @@ public class ApiHandler {
                 .url(BASE_URL + API_VERSION_5 + EMAIL_LOGIN_API)
                 .build();
 
-        Gdx.app.error("Email-Login","Request");
-//
         Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -265,7 +264,6 @@ public class ApiHandler {
         Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                Gdx.app.log("FBLoginResponse", httpResponse.getResultAsString());
                 int status = httpResponse.getStatus().getStatusCode();
                 String resultString = httpResponse.getResultAsString();
                 if (errorCodeHandling(status)) {
@@ -318,12 +316,11 @@ public class ApiHandler {
                 preference.setPaytmLinkDescription(jsonValue.getString(JsonParseKeys.PAYTM_LINK_DESCRIPTION));
             }
         } catch (Exception e) {
-//            Gdx.app.log("Register error", "error");
         }
     }
 
     public static void callForgetPasswordApi(String emailId, GdxListener<String> listener) {
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put("emailId", emailId);
         params.put("appVersion", Constant.getVersionCode());
         params.put("deviceId", Constant.getDeviceId());
@@ -382,7 +379,6 @@ public class ApiHandler {
             preference.setConfigUpdateTime(0);
         }
         params.put("configUpdatedTime", preference.getConfigUpdateTime() + "");
-        // Gdx.app.log("App Launch Response",proGame.config.getLatitude()+"-"+proGame.config.getLongitude());
         params.put("latitude", "");
         params.put("longitude", "");
         params.put("p", Constant.getAbsolutePath());
@@ -466,7 +462,6 @@ public class ApiHandler {
             }
             if (object.has(JsonParseKeys.IS_WITZEAL_MOBILE_VERIFICATION)) {
                 Constant.userProfile.setWitzealMobileVerification(object.getBoolean(JsonParseKeys.IS_WITZEAL_MOBILE_VERIFICATION));
-                //  Gdx.app.error("Mobile verification app launch ",Constant.userProfile.isWitzealMobileVerification()+"");
             }
 //            if (object.has(JsonParseKeys.SHOW_HEAD_TO_HEAD_CASH)) {
 //                Constant.userProfile.setShowHeadToHeadCash(object.getBoolean(JsonParseKeys.SHOW_HEAD_TO_HEAD_CASH));
@@ -820,15 +815,12 @@ public class ApiHandler {
 //                }
 //                Constant.GENERIC_POPUP_ACTION_URL = object.getString(JsonParseKeys.BACKGROUND_APK_DOWNLOAD_URL);
 //            }
-//            Gdx.app.error("App launch ", "Success");
         } catch (Exception e) {
-            //   Gdx.app.error("App launch ", e.getMessage());
         }
     }
 
     private static void parseConfigDto(GamePreferences preference, JsonValue configDto) {
         try {
-            Gdx.app.error("App Config", configDto.toJson(JsonWriter.OutputType.json));
             preference.setInviteText(configDto.getString(JsonParseKeys.INVITE_TEXT));
             preference.setFBInviteText(configDto.getString(JsonParseKeys.FB_INVITE_TEXT));
             preference.setDisplayInviteText(configDto.getString(JsonParseKeys.INVITE_DISPLAY_TEXT));
@@ -896,8 +888,6 @@ public class ApiHandler {
 //            else
 //                preference.setChipsLeagueMaxPrize("");
 
-            //Gdx.app.error(bettingCash,bettingCoins);
-            //Gdx.app.error("Config","done");
             preference.setConfigUpdateTime(TimeUtils.millis());
 //            Constant.initialValue.setCcImages(configDto.getString(JsonParseKeys.CRICKET_CONS));
 //            if (configDto.has(JsonParseKeys.BASKETBALL_CONS))
@@ -961,7 +951,6 @@ public class ApiHandler {
 //                // preference.saveMap(proGame.config.fetchAllResult());
 //            }
         } catch (Exception e) {
-            // Gdx.app.log("Config",e.getMessage());
         }
     }
 
@@ -984,69 +973,64 @@ public class ApiHandler {
 
 
     public static void callChecksumApi(String orderId, float price, String cashBackId, ProcessDialog processDialog, String source, GdxListener<String> listener) {
-        final float amount = PokerUtils.getValue(price);
-        HashMap<String, String> params = new HashMap();
-//        final String callbackUrl = "https://campaign.bigcash.live/paytmCb.php";
-        final String callbackUrl = GWT.getHostPageBaseURL() + "checkout";
-        Gdx.app.error("CallBackUrl", callbackUrl);
-        String transactionId = TimeUtils.millis() + "";
-        params.put("requestType", Payment.REQUEST_TYPE);
-        params.put("userId", GamePreferences.instance().getUserId());
-        params.put("otp", "abc");
-        params.put("transactionId", transactionId + "");
-        params.put("amount", amount + "");
-        params.put("orderId", orderId);
-        params.put("merchantMid", Payment.MERCHANT_MID);
-        params.put("channelId", Payment.CHANNEL_ID);
-        params.put("website", Payment.WEBSITE);
-        params.put("industryTypeId", Payment.INDUSTRY_TYPE_ID);
-        params.put("callbackUrl", callbackUrl);
-        params.put("isWeb", "true");
-
-        Gdx.app.log("Checksum Params", params.toString());
-
-        HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-        Net.HttpRequest httpPost = requestBuilder.newRequest()
-                .method(Net.HttpMethods.POST)
-                .timeout(10000)
-                .formEncodedContent(params)
-                .url(ApiHandler.BASE_URL + ApiHandler.API_VERSION_1 + ApiHandler.PAYTM_GENERATE_CHECK_SUM_API + "?userId=" + GamePreferences.instance().getUserId())
-                .build();
-
-        Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                Gdx.app.log("Checksum Response", httpResponse.getStatus().getStatusCode() + ":" + httpResponse.getResultAsString());
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (errorCodeHandling(statusCode)) {
-                    JsonValue jsonValue = new JsonReader().parse(httpResponse.getResultAsString());
-                    String checksum = jsonValue.getString("checksum");
-                    String sso_token = jsonValue.getString("sso_token");
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            processDialog.hide();
-                            Payment.startPaytmProcess(sso_token, orderId, GamePreferences.instance().getUserId(), amount + "", callbackUrl, checksum, cashBackId, source, listener);
-                        }
-                    });
-
-                } else {
-                    if (statusCode != HttpStatus.SC_UNAUTHORIZED) {
-                        listener.setError("Server Error");
-                    }
-                }
-            }
-
-            @Override
-            public void failed(Throwable t) {
-                listener.setFail(t.getMessage());
-            }
-
-            @Override
-            public void cancelled() {
-                listener.setError("Cancelled");
-            }
-        });
+        PaytmWindow.openWindow(orderId,price,cashBackId,processDialog,source,listener);
+//        final float amount = PokerUtils.getValue(price);
+//        HashMap<String, String> params = new HashMap();
+//        final String callbackUrl = GWT.getHostPageBaseURL() + "checkout";
+//        String transactionId = TimeUtils.millis() + "";
+//        params.put("requestType", Payment.REQUEST_TYPE);
+//        params.put("userId", GamePreferences.instance().getUserId());
+//        params.put("otp", "abc");
+//        params.put("transactionId", transactionId + "");
+//        params.put("amount", amount + "");
+//        params.put("orderId", orderId);
+//        params.put("merchantMid", Payment.MERCHANT_MID);
+//        params.put("channelId", Payment.CHANNEL_ID);
+//        params.put("website", Payment.WEBSITE);
+//        params.put("industryTypeId", Payment.INDUSTRY_TYPE_ID);
+//        params.put("callbackUrl", callbackUrl);
+//        params.put("isWeb", "true");
+//        HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
+//        Net.HttpRequest httpPost = requestBuilder.newRequest()
+//                .method(Net.HttpMethods.POST)
+//                .timeout(10000)
+//                .formEncodedContent(params)
+//                .url(ApiHandler.BASE_URL + ApiHandler.API_VERSION_1 + ApiHandler.PAYTM_GENERATE_CHECK_SUM_API + "?userId=" + GamePreferences.instance().getUserId())
+//                .build();
+//
+//        Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
+//            @Override
+//            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+//                int statusCode = httpResponse.getStatus().getStatusCode();
+//                if (errorCodeHandling(statusCode)) {
+//                    JsonValue jsonValue = new JsonReader().parse(httpResponse.getResultAsString());
+//                    String checksum = jsonValue.getString("checksum");
+//                    String sso_token = jsonValue.getString("sso_token");
+//                    Gdx.app.postRunnable(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            processDialog.hide();
+//                            Payment.startPaytmProcess(sso_token, orderId, GamePreferences.instance().getUserId(), amount + "", callbackUrl, checksum, cashBackId, source, listener);
+//                        }
+//                    });
+//
+//                } else {
+//                    if (statusCode != HttpStatus.SC_UNAUTHORIZED) {
+//                        listener.setError("Server Error");
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void failed(Throwable t) {
+//                listener.setFail(t.getMessage());
+//            }
+//
+//            @Override
+//            public void cancelled() {
+//                listener.setError("Cancelled");
+//            }
+//        });
     }
 
 
@@ -1074,7 +1058,6 @@ public class ApiHandler {
                 } else {
                     listener.setError(statusCode + "," + resultString);
                 }
-                Gdx.app.log("OrderRequest Response", httpResponse.getStatus().getStatusCode() + ":" + httpResponse.getResultAsString());
             }
 
             @Override
@@ -1261,7 +1244,6 @@ public class ApiHandler {
                 Response response = new Response();
                 response.setResult(httpResponse.getResultAsString());
                 response.setErrorCode(httpResponse.getStatus().getStatusCode());
-                Gdx.app.log("Validate Api", response.getResult());
                 if (errorCodeHandling(response.getErrorCode())) {
                     GamePreferences.instance().setShowPaytmLink(false);
                     parseValidateResponse(response.getResult());
@@ -1561,13 +1543,12 @@ public class ApiHandler {
                 }
             }
         } catch (Exception e) {
-//            Gdx.app.error("Level Cross Api", "error");
         }
     }
 
     public static void callReferralLeaderboardApi(boolean isPrevious, final GdxListener<ReferralLeague> listener) {
         GamePreferences preference = GamePreferences.instance();
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         String userId = preference.getUserId();
         params.put("userId", userId);
         String transactionId = TimeUtils.millis() + "";
@@ -1678,17 +1659,15 @@ public class ApiHandler {
                     referralLeague.addReferralPlayerDtos(referralPlayerDto);
                 }
             }
-            Gdx.app.error("referralLeague", "Success");
             return referralLeague;
         } catch (Exception e) {
-            Gdx.app.error("referralLeague", "erroe =>" + e.getMessage());
             return null;
         }
     }
 
     public static void callCasualLeaderBoardApi(GdxListener<CasualLeague> listener) {
         GamePreferences preference = GamePreferences.instance();
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         String userId = preference.getUserId();
         params.put("userId", userId);
         String transactionId = TimeUtils.millis() + "";
@@ -1783,10 +1762,8 @@ public class ApiHandler {
                     casualLeague.addCasualPlayerDtos(casualPlayerDto);
                 }
             }
-            Gdx.app.error("casualLeague", "Success");
             return casualLeague;
         } catch (Exception e) {
-            Gdx.app.error("casualLeague", "erroe =>" + e.getMessage());
             return null;
         }
 
@@ -1796,7 +1773,7 @@ public class ApiHandler {
     public static void callRedeemConfigApi(final GdxListener<String> listener) {
         String transactionId = TimeUtils.millis() + "";
         GamePreferences preference = GamePreferences.instance();
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put("userId", preference.getUserId());
         params.put("otp", PokerUtils.encryptValue(transactionId, preference.getOtp()));
         params.put("transactionId", transactionId);
@@ -1986,13 +1963,11 @@ public class ApiHandler {
                 .formEncodedContent(params)
                 .url(BASE_URL + API_VERSION_4 + WITZEAL_MSISDN_API + "?userId=" + preference.getUserId())
                 .build();
-        // Gdx.app.error("callWitzealMsisdnApi",params.toString());
         Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int status = httpResponse.getStatus().getStatusCode();
                 String resultString = httpResponse.getResultAsString();
-                //  Gdx.app.error("callWitzealMsisdnApi",response.getErrorCode()+"-"+response.getResult());
                 if (errorCodeHandling(status)) {
                     parseProfileApi(resultString);
                     listener.setSuccess("Success");
@@ -2020,14 +1995,13 @@ public class ApiHandler {
     public static void callAccountSummaryApi(long minId, final GdxListener<String> listener) {
         String transactionId = TimeUtils.millis() + "";
         GamePreferences preference = GamePreferences.instance();
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put("userId", preference.getUserId());
         params.put("otp", PokerUtils.encryptValue(transactionId, preference.getOtp()));
         params.put("transactionId", transactionId);
         if (minId != 0) {
             params.put("minId", minId + "");
         }
-        Gdx.app.error("Account Summary request", params.toString());
 
         HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
         Net.HttpRequest httpGet = requestBuilder.newRequest()
@@ -2043,7 +2017,6 @@ public class ApiHandler {
                 Response response = new Response();
                 response.setResult(httpResponse.getResultAsString());
                 response.setErrorCode(httpResponse.getStatus().getStatusCode());
-                Gdx.app.error("Account Summary Api", response.getResult());
                 if (errorCodeHandling(response.getErrorCode())) {
                     parseAccountSummaryResponse(response.getResult());
                     listener.setSuccess("Success");
@@ -2084,7 +2057,6 @@ public class ApiHandler {
             }
             Constant.arrAccountSummary = array;
         } catch (Exception e) {
-//            Gdx.app.error("Account Summary Api", "error");
         }
     }
 
@@ -2128,7 +2100,7 @@ public class ApiHandler {
     }
 
     public static void callPrivacyPolicyApi(String type, GdxListener<String> listener) {
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         GamePreferences preference = GamePreferences.instance();
         params.put("userId", preference.getUserId());
         params.put("policyType", type);
@@ -2147,7 +2119,6 @@ public class ApiHandler {
                 Response response = new Response();
                 response.setResult(httpResponse.getResultAsString());
                 response.setErrorCode(httpResponse.getStatus().getStatusCode());
-                //    Gdx.app.error("Policy Api",response.getErrorCode()+"-"+response.getResult());
                 if (errorCodeHandling(response.getErrorCode())) {
                     listener.setSuccess(parsePolicyApiResponse(response.getResult()));
                 } else {
@@ -2181,7 +2152,7 @@ public class ApiHandler {
     public static void callFeedbackApi(String feedback, String msisdn, final GdxListener<String> listener) {
 
         GamePreferences preference = GamePreferences.instance();
-        HashMap<String, String> params = new HashMap();
+        HashMap<String, String> params = new HashMap<String, String>();
         params.put("msisdn", msisdn);
         params.put("feedback", feedback);
 
@@ -2200,7 +2171,6 @@ public class ApiHandler {
                 Response response = new Response();
                 response.setResult(httpResponse.getResultAsString());
                 response.setErrorCode(httpResponse.getStatus().getStatusCode());
-                //    Gdx.app.error("Policy Api",response.getErrorCode()+"-"+response.getResult());
                 if (errorCodeHandling(response.getErrorCode())) {
                     listener.setSuccess("Success");
                 } else {
@@ -2308,7 +2278,6 @@ public class ApiHandler {
         Gdx.net.sendHttpRequest(httpPost, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                Gdx.app.error("Log Response", httpResponse.getStatus().getStatusCode() + "");
             }
 
             @Override

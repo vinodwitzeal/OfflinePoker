@@ -13,8 +13,6 @@ public class CShader implements Disposable {
         shaderProgram = new ShaderProgram(vertex, fragment);
         if (shaderProgram.isCompiled()) {
             compiled = true;
-        } else {
-            Gdx.app.log("Shader_" + name, shaderProgram.getLog());
         }
     }
 

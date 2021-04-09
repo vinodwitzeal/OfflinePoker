@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -42,11 +43,12 @@ import bigcash.poker.network.RazorPayMethod;
 import bigcash.poker.utils.AssetsLoader;
 import bigcash.poker.utils.DrawableBuilder;
 import bigcash.poker.utils.GamePreferences;
+import bigcash.poker.utils.PokerUtils;
 import bigcash.poker.utils.TextureDrawable;
+import bigcash.poker.utils.TimeoutHandler;
 import bigcash.poker.widgets.HtmlTextField;
 import bigcash.poker.widgets.StyledLabel;
 import bigcash.poker.widgets.WalletTable;
-
 
 public class LandscapeCashAddDialog extends UIDialog {
     private TextureAtlas uiAtlas;
@@ -63,6 +65,7 @@ public class LandscapeCashAddDialog extends UIDialog {
     private String source;
     private float entryFee;
     private Table leftTable,rightTable;
+    private boolean paymentStarted;
 
     public LandscapeCashAddDialog(UIScreen modelScreen, String source, float entryFee,GdxListener<String> responseListener) {
         super(modelScreen);
@@ -73,9 +76,6 @@ public class LandscapeCashAddDialog extends UIDialog {
         this.entryFee = entryFee;
         this.density=this.width/360.0f;
         dismissOnBack(true);
-//        float a=width;
-//        width=height;
-//        height=a;
         buildDialog();
     }
 
@@ -122,6 +122,7 @@ public class LandscapeCashAddDialog extends UIDialog {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                responseListener.setFail("Payment Cancelled");
                 hide();
             }
         });
@@ -321,7 +322,6 @@ public class LandscapeCashAddDialog extends UIDialog {
                                     public boolean keyTyped(InputEvent event, char character) {
                                         cashButtonButtonGroup.uncheckAll();
                                         return super.keyTyped(event, character);
-
                                     }
                                 }
         );
@@ -485,8 +485,13 @@ public class LandscapeCashAddDialog extends UIDialog {
         processDialog = new ProcessDialog(screen, "Please wait..");
         final GdxListener<String> listener = new GdxListener<String>() {
             @Override
+            public void setProcessing() {
+                paymentStarted=false;
+            }
+
+            @Override
             public void onSuccess(String s) {
-                responseListener.onSuccess(s);
+                responseListener.setSuccess(s);
                 screen.updateBalance();
                 processDialog.hide();
                 resetCashBackDto();
@@ -496,6 +501,7 @@ public class LandscapeCashAddDialog extends UIDialog {
 
             @Override
             public void onFail(String reason) {
+                responseListener.setFail(reason);
                 processDialog.hide();
                 isReport = true;
                 ApiHandler.callEventLogApi("ADD_CASH", paymentType, reason);
@@ -503,6 +509,7 @@ public class LandscapeCashAddDialog extends UIDialog {
 
             @Override
             public void onError(String errorMessage) {
+                responseListener.setError(errorMessage);
                 processDialog.hide();
                 toast(errorMessage);
                 isReport=true;
@@ -523,6 +530,7 @@ public class LandscapeCashAddDialog extends UIDialog {
                         } else {
                             cashBackId = null;
                         }
+                        paymentStarted=true;
                         addWithPaytm(amount,processDialog, listener);
                         paymentType = "PAYTM";
                     } else {
@@ -797,6 +805,11 @@ public class LandscapeCashAddDialog extends UIDialog {
         final String orderId = "CASH" + GamePreferences.instance().getUserId()+"-"+ TimeUtils.millis();
         final GdxListener<String> paytmListener = new GdxListener<String>() {
             @Override
+            public void setProcessing() {
+                paymentStarted=false;
+            }
+
+            @Override
             public void onSuccess(String s) {
                 listener.setSuccess(s);
             }
@@ -839,11 +852,30 @@ public class LandscapeCashAddDialog extends UIDialog {
 
     @Override
     public void hide() {
-        pokerGame.appConfig.fullscreenOrientation= GwtGraphics.OrientationLockType.LANDSCAPE_PRIMARY;
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         super.hide();
         if (!isReport) {
             ApiHandler.callEventLogApi("ADD_CASH", "PAYMENT_CANCEL", "CANCEL");
+        }
+    }
+
+    @Override
+    public void hide(Action action) {
+        pokerGame.appConfig.fullscreenOrientation= GwtGraphics.OrientationLockType.LANDSCAPE_PRIMARY;
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+    }
+
+    @Override
+    public void resume() {
+        if (paymentStarted){
+            paymentStarted=false;
+            PokerUtils.setTimeOut(3000, new TimeoutHandler() {
+                @Override
+                public void onTimeOut() {
+                    processDialog.hide();
+                    hide();
+                    responseListener.setFail("Payment Cancelled");
+                }
+            });
         }
     }
 

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.google.gwt.user.client.Window;
 
 import bigcash.poker.constants.Constant;
 import bigcash.poker.dialogs.CashAddDialog;
@@ -366,7 +367,6 @@ public class PokerContestScreen extends UIScreen {
     }
 
     public void setWinnings(float amount) {
-
         try {
             String numberAsString = PokerUtils.formatValue(amount);
             winningLabel.setText("\u20b9 " + numberAsString);

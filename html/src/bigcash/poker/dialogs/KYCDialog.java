@@ -65,8 +65,6 @@ public class KYCDialog extends IDialog {
         Table headerTable = new Table();
         headerTable.left();
 
-        Gdx.app.error("KYC","1");
-
         Label.LabelStyle headerLabelStyle = new Label.LabelStyle();
         headerLabelStyle.font = FontPool.obtain(FontType.ROBOTO_BOLD, 7);
         headerLabelStyle.fontColor = Color.WHITE;
@@ -82,9 +80,6 @@ public class KYCDialog extends IDialog {
         NinePatchDrawable boxDrawable = new NinePatchDrawable(new NinePatch(itemBGTexture, 14, 14, 16, 15));
         boxDrawable.setMinHeight(headerHeight * 0.8f);
         boxDrawable.setMinWidth(50);
-
-        Gdx.app.error("KYC","2");
-
 
         TextureRegion backTexture = uiAtlas.findRegion("btn_wback");
         float backHeight = headerHeight/2f;
@@ -171,7 +166,6 @@ public class KYCDialog extends IDialog {
         dobTable.add(new Image(iconTexture)).width(iconWidth).height(iconHeight).pad(fieldPad);
         Image dobLine=new Image(whiteDrawable);
 
-        Gdx.app.error("KYC","5");
         dobLine.setColor(Color.GRAY);
         dobTable.add(dobLine).width(2*density).height(iconHeight).pad(fieldPad);
         final TextField dobTextField = new TextField("", textFieldStyle);

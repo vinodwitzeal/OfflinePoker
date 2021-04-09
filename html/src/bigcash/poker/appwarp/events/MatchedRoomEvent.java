@@ -12,7 +12,6 @@ public class MatchedRoomEvent extends JavaScriptObject {
     }-*/;
 
     public final native RoomData[] getRoomsData()/*-{
-        console.log(this.getRooms());
         return this.getRooms();
     }-*/;
 }

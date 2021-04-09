@@ -138,7 +138,6 @@ public class Emoji extends Widget {
     }
 
     public void setError(String source) {
-        Gdx.app.log("Emoji " + source, name + " failed to download");
         if (emojiErrorListener != null && !downloaded) {
             Timer.schedule(new Timer.Task() {
                 @Override

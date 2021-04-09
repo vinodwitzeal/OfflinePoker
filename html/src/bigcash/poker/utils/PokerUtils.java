@@ -868,12 +868,10 @@ public class PokerUtils {
 
     public static native void getLocation(LocationHandler locationHandler)/*-{
         $wnd.onSuccessLocation=$entry(function(position){
-            console.log(position);
             locationHandler.@bigcash.poker.network.LocationHandler::setSuccess(Lbigcash/poker/utils/GeolocationPosition;)(position);
         });
 
         $wnd.onErrorLocation=$entry(function(error){
-            console.log(error);
             locationHandler.@bigcash.poker.network.LocationHandler::setFailed()();
         });
 
@@ -891,118 +889,12 @@ public class PokerUtils {
         },time);
     }-*/;
 
-    public static void openFullScreen(TimeoutHandler timeoutHandler) {
-        try {
-            openFullScreen();
-        } catch (Exception e) {
-
-        }
-        setTimeOut(1500, timeoutHandler);
-    }
-
-    private static native void openFullScreen() throws JavaScriptException/*-{
-        $wnd.openFullScreen();
-    }-*/;
-
-    public static void closeFullScreen(TimeoutHandler timeoutHandler) {
-        try {
-            closeFullScreen();
-        } catch (Exception e) {
-
-        }
-        setTimeOut(1500, timeoutHandler);
-    }
-
-    private static native void closeFullScreen() throws JavaScriptException/*-{
-         $wnd.exitFullScreen();
-    }-*/;
 
     public static native void setScreen(String screenName)/*-{
         $wnd.screenChanged=true;
         $wnd.previousScreen=$wnd.location.hash;
         $wnd.currentScreen=screenName;
         $wnd.location.hash=screenName;
-    }-*/;
-
-
-    public static native void catchBackKey(PokerGame pokerGame)/*-{
-        $wnd.onhashchange=function(){
-            if($wnd.screenChanged){
-                $wnd.screenChanged=false;
-                console.log("Reached 145");
-            }else{
-                var screen=$wnd.location.hash.replace("#","");
-                var previousScreen=$wnd.previousScreen.replace("#","");
-                if(screen==previousScreen){
-                    $wnd.location.hash=$wnd.currentScreen;
-                    $wnd.screenChanged=false;
-                    pokerGame.@bigcash.poker.gwt.PokerGame::onBackKeyPressed()();
-                    console.log("Reached 148");
-                }
-            }
-        };
-    }-*/;
-
-
-    public static native void addFullscreenEventListener()/*-{
-        var doc=$wnd.document;
-        doc.addEventListener("fullscreenchange", function() {
-            console.log("fullscreenchange");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("mozfullscreenchange", function() {
-            console.log("mozfullscreenchange");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("webkitfullscreenchange", function() {
-            console.log("webkitfullscreenchange");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("msfullscreenchange", function() {
-            console.log("mozfullscreenchange");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-
-        doc.addEventListener("fullscreenerror", function() {
-            console.log("fullscreenerror");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("mozfullscreenerror", function() {
-            console.log("mozfullscreenerror");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("webkitfullscreenerror", function() {
-            console.log("webkitfullscreenerror");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
-        doc.addEventListener("msfullscreenerror", function() {
-            console.log("msfullscreenerror");
-            if($wnd.onFullscreen){
-                $wnd.onFullscreen();
-                $wnd.onFullscreen=null;
-            }
-        });
     }-*/;
 
 
@@ -1024,10 +916,8 @@ public class PokerUtils {
                 || userAgent.match(/iPod/i)
                 || userAgent.match(/BlackBerry/i)
                 || userAgent.match(/Windows Phone/i)) {
-                console.log("Mobile Browser");
                 return true;
             } else {
-                console.log("Desktop Browser");
                 return false;
             }
     }-*/;
@@ -1035,7 +925,6 @@ public class PokerUtils {
 
     public static void inviteOnWhatsapp(String inviteText) {
         try {
-            Gdx.app.error("Invite Text", inviteText);
             Window.open("whatsapp://send?text=" + URLEncoder.encode(inviteText, "UTF-8"), "", "_blank");
         } catch (Exception e) {
 
@@ -1077,20 +966,22 @@ public class PokerUtils {
         Window.open(url, "_blank", "");
     }
 
-    public static native String formatValue(float value)/*-{
-        return new Number(value).toLocaleString("en-IN",{minimumFractionDigits:0});
+    public static String formatValue(float value){
+        return formatIntValue((int)value);
+    }
+
+    public static native String formatIntValue(int value)/*-{
+        return new Number(value).toLocaleString("en-IN");
     }-*/;
 
 
     public static boolean setAppData() {
         CookieData cookieData = CookieData.getCookieData();
         if (cookieData == null) {
-            Gdx.app.error("Cookie Data", "NULL");
             return false;
         }
         String appLaunchResponse = CookieData.getAppLaunchResponse();
         if (appLaunchResponse == null) {
-            Gdx.app.error("App Launch Response", "NULL");
             return false;
         }
         GamePreferences preferences = GamePreferences.instance();
@@ -1103,7 +994,6 @@ public class PokerUtils {
         } catch (Exception e) {
 
         }
-        Gdx.app.error("AppLaunchResponse", result);
         if (result.matches("")) {
             return false;
         }

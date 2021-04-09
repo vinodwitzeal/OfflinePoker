@@ -161,7 +161,6 @@ public class QrScannerDialog extends PopupPanel {
 
             @Override
             public void onMessage(String message) {
-                Gdx.app.error("OnSuccess",message);
                 try {
                     String messages[]=message.split("qr=");
                     if (messages.length==2) {
@@ -181,7 +180,6 @@ public class QrScannerDialog extends PopupPanel {
             @Override
             public void onError(String message) {
                 errorLabel.setText("QR Not Found");
-                Gdx.app.error("QR Error",message);
             }
         });
     }
@@ -202,7 +200,6 @@ public class QrScannerDialog extends PopupPanel {
 
             @Override
             public void onMessage(String message) {
-                Gdx.app.error("OnSuccess",message);
                 try {
                     String messages[]=message.split("qr=");
                     if (messages.length==2) {

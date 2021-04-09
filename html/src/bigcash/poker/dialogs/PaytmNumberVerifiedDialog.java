@@ -410,14 +410,4 @@ public class PaytmNumberVerifiedDialog extends UIDialog {
             }
         });
     }
-
-//    @Override
-//    public void onOtpReceived(String otp) {
-//        Gdx.app.log("Otp",otp);
-//    }
-//
-//    @Override
-//    public void onOtpTimeout() {
-//
-//    }
 }

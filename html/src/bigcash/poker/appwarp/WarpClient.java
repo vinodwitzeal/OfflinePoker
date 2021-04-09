@@ -30,58 +30,40 @@ public class WarpClient extends JavaScriptObject {
     public final native void setListeners(WarpResponseListener listener)/*-{
         var that=this;
         $wnd.onConnectDone=$entry(function(res){
-            console.log("onConnectDone");
-            console.log(res);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onConnectDone(I)(res);
         });
 
         $wnd.onDisconnectDone=$entry(function(res){
-            console.log("onDisconnectDone");
-            console.log(res);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onDisconnectDone(I)(res);
         });
 
         $wnd.onGetLiveUserInfoDone=$entry(function(event){
-            console.log("onGetLiveUserInfoDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onGetLiveUserInfoDone(Lbigcash/poker/appwarp/events/LiveUserInfoEvent;)(event);
         });
 
 
 
         $wnd.onJoinRoomDone=$entry(function(event){
-            console.log("onJoinRoomDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onJoinRoomDone(Lbigcash/poker/appwarp/events/RoomEvent;)(event);
         });
 
         $wnd.onLeaveRoomDone=$entry(function(event){
-            console.log("onLeaveRoomDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onLeaveRoomDone(Lbigcash/poker/appwarp/events/RoomEvent;)(event);
         });
 
        $wnd.onCreateRoomDone=$entry(function(event){
-            console.log("onCreateRoomDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onCreateRoomDone(Lbigcash/poker/appwarp/events/RoomEvent;)(event);
         });
 
         $wnd.onSubscribeRoomDone=$entry(function(event){
-            console.log("onSubscribeRoomDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onSubscribeRoomDone(Lbigcash/poker/appwarp/events/RoomEvent;)(event);
         });
 
          $wnd.onGetLiveRoomInfoDone=$entry(function(event){
-            console.log("onGetLiveRoomInfoDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onGetLiveRoomInfoDone(Lbigcash/poker/appwarp/events/LiveRoomInfoEvent;)(event);
         });
 
          $wnd.onGetMatchedRoomsDone=$entry(function(event){
-            console.log("onGetMatchedRoomsDone");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onGetMatchedRoomsDone(Lbigcash/poker/appwarp/events/MatchedRoomEvent;)(event);
         });
 
@@ -98,42 +80,30 @@ public class WarpClient extends JavaScriptObject {
        this.setResponseListener($wnd.AppWarp.Events.onGetMatchedRoomsDone,$wnd.onGetMatchedRoomsDone);
 
         $wnd.onUserJoinedRoom=$entry(function(event,user){
-            console.log("onUserJoinedRoom");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onUserJoinedRoom(Lbigcash/poker/appwarp/events/RoomEvent;Ljava/lang/String;)(event,user);
         });
 
         $wnd.onUserLeftRoom=$entry(function(event,user){
-            console.log("onUserLeftRoom");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onUserLeftRoom(Lbigcash/poker/appwarp/events/RoomEvent;Ljava/lang/String;)(event,user);
         });
 
         $wnd.onChatReceived=$entry(function(event){
-            console.log("onChatReceived");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onChatReceived(Lbigcash/poker/appwarp/events/ChatEvent;)(event);
         });
 
         $wnd.onUpdatePeersReceived=$entry(function(update){
-            console.log("onUpdatePeersReceived");
-            console.log(update);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onUpdatePeersReceived([B)(update);
         });
 
         $wnd.onMoveCompleted=$entry(function(event){
-            console.log("onMoveCompleted");
-            console.log(event);
             listener.@bigcash.poker.appwarp.WarpResponseListener::onMoveCompleted(Lbigcash/poker/appwarp/events/MoveEvent;)(event);
         });
 
         $wnd.onGameStarted=$entry(function(sender,room,nextTurn){
-            console.log("onGameStarted");
             listener.@bigcash.poker.appwarp.WarpResponseListener::onGameStarted(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(sender,room,nextTurn);
         });
 
         $wnd.onGameStopped=$entry(function(sender,room){
-            console.log("onGameStopped");
             listener.@bigcash.poker.appwarp.WarpResponseListener::onGameStopped(Ljava/lang/String;Ljava/lang/String;)(sender,room);
         });
 

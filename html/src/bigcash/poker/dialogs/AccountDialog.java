@@ -137,7 +137,6 @@ public class AccountDialog extends UIDialog {
         } else {
             contentTable.add().height(height * 0.15f).row();
         }
-        Gdx.app.error("Passed","139");
 
         final Label.LabelStyle verifyLabelStyle = new Label.LabelStyle();
         verifyLabelStyle.font = FontPool.obtain(FontType.ROBOTO_REGULAR, 7);
@@ -226,7 +225,6 @@ public class AccountDialog extends UIDialog {
                             }
                         }).show(screen.stage);
                     }catch (Exception e){
-                        Gdx.app.error("Error",e.getMessage());
                     }
 
                 }

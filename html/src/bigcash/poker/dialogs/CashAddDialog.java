@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,7 +45,9 @@ import bigcash.poker.utils.AssetsLoader;
 import bigcash.poker.utils.DrawableBuilder;
 import bigcash.poker.utils.GamePreferences;
 import bigcash.poker.utils.PokerTimer;
+import bigcash.poker.utils.PokerUtils;
 import bigcash.poker.utils.TextureDrawable;
+import bigcash.poker.utils.TimeoutHandler;
 import bigcash.poker.widgets.HtmlTextField;
 import bigcash.poker.widgets.StyledLabel;
 import bigcash.poker.widgets.WalletTable;
@@ -66,12 +69,11 @@ public class CashAddDialog extends UIDialog {
     private Table amountTable;
     private TextField amountField;
     private CashButtonStyle cashButtonStyle;
-
     private ButtonGroup<CashButton> cashButtonButtonGroup;
+    private boolean paymentStarted;
 
     public CashAddDialog(UIScreen screen,GdxListener<String> responseListener) {
         super(screen);
-        screen.addDialog(this);
         getCashBackDto();
         this.responseListener = responseListener;
         dismissOnBack(true);
@@ -118,7 +120,15 @@ public class CashAddDialog extends UIDialog {
 
     @Override
     public void resume() {
-        super.resume();
+        if (paymentStarted){
+            paymentStarted=false;
+            PokerUtils.setTimeOut(3000, new TimeoutHandler() {
+                @Override
+                public void onTimeOut() {
+                    processDialog.hide();
+                }
+            });
+        }
     }
 
     private void getCashBackDto() {
@@ -547,44 +557,33 @@ public class CashAddDialog extends UIDialog {
         processDialog = new ProcessDialog(screen, "Please wait..");
         final GdxListener<String> listener = new GdxListener<String>() {
             @Override
+            public void setProcessing() {
+                paymentStarted=false;
+            }
+
+            @Override
             public void onSuccess(String s) {
-                Gdx.app.error("Success","1");
                 responseListener.onSuccess(s);
-                Gdx.app.error("Success","2");
                 screen.updateBalance();
-                Gdx.app.error("Success","3");
                 processDialog.hide();
-                Gdx.app.error("Success","4");
                 resetCashBackDto();
-                Gdx.app.error("Success","5");
                 hide();
-                Gdx.app.error("Success","6");
                 toast("Cash Added Successfully");
-                Gdx.app.error("Success","7");
             }
 
             @Override
             public void onFail(String reason) {
-                Gdx.app.error("Fail","1");
                 processDialog.hide();
-                Gdx.app.error("Fail","2");
                 isReport = true;
-                Gdx.app.error("Fail","3");
                 ApiHandler.callEventLogApi("ADD_CASH", paymentType, reason);
-                Gdx.app.error("Fail","4");
             }
 
             @Override
             public void onError(String errorMessage) {
-                Gdx.app.error("Error","1");
                 processDialog.hide();
-                Gdx.app.error("Error","2");
                 toast(errorMessage);
-                Gdx.app.error("Error","3");
                 isReport = true;
-                Gdx.app.error("Error","4");
                 ApiHandler.callEventLogApi("ADD_CASH", paymentType, errorMessage);
-                Gdx.app.error("Error","5");
             }
         };
 
@@ -601,6 +600,7 @@ public class CashAddDialog extends UIDialog {
                         } else {
                             cashBackId = null;
                         }
+                        paymentStarted=true;
                         addWithPaytm(amount, processDialog, listener);
                         paymentType = "PAYTM";
                     } else {
@@ -888,6 +888,11 @@ public class CashAddDialog extends UIDialog {
         final String orderId = "CASH" + GamePreferences.instance().getUserId() + "-" + TimeUtils.millis();
         final GdxListener<String> paytmListener = new GdxListener<String>() {
             @Override
+            public void setProcessing() {
+                paymentStarted=false;
+            }
+
+            @Override
             public void onSuccess(String s) {
                 listener.setSuccess(s);
             }
@@ -940,7 +945,8 @@ public class CashAddDialog extends UIDialog {
         }
     }
 
-//    Date getDate(long millis) {
+
+    //    Date getDate(long millis) {
 //        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
 //        Date date = new Date(millis);
 //        return date;

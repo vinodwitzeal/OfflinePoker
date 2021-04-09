@@ -69,25 +69,10 @@ public class HPasswordField extends HorizontalPanel {
         add(eyeImage);
         setCellVerticalAlignment(eyeImage, HasVerticalAlignment.ALIGN_MIDDLE);
         setCellWidth(eyeImage, "5%");
-
-
-        printWindowScroll();
-        textBox.addFocusHandler(new FocusHandler() {
-            @Override
-            public void onFocus(FocusEvent event) {
-                printWindowScroll();
-//                int textAreaTop=textBox.getOffsetHeight();
-//                dialog.setPopupPosition(dialog.getAbsoluteLeft(),textAreaTop-dialog.getAbsoluteTop());
-            }
-        });
     }
 
     public String getText() {
         return textBox.getText();
     }
 
-    private void printWindowScroll() {
-        Gdx.app.error("Window Top Scroll", Window.getScrollTop() + "");
-        Gdx.app.error("Window Left Scroll", Window.getScrollLeft() + "");
-    }
 }

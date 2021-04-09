@@ -1,4 +1,5 @@
 package bigcash.poker.game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.JsonValue;
@@ -61,20 +62,19 @@ public abstract class PokerWarpController implements WarpResponseListener {
     public List<String> listGetRoomWithProperty;
     public List<String> listPreviousJoinRoom;
     //    private HashMap<String, String> matchProperties, matchPropertiesForRoomArray;
-    private JsonValue matchProperties,matchPropertiesForRoom;
+    private JsonValue matchProperties, matchPropertiesForRoom;
     private PokerWarpListener listener;
 
     public PokerWarpController(PokerGame proGame, GeolocationPosition position, PokerContest contest) {
         this.pokerGame = proGame;
-        Gdx.app.log("PokerWarpController", "Passed->" + 62);
         this.requestState = REST;
         this.responseState = REST;
         this.reconnectAttempts = 5;
         this.myID = Constant.userProfile.getUserId();
-        if (position==null){
+        if (position == null) {
             this.latitude = "0";
             this.longitude = "0";
-        }else {
+        } else {
             this.latitude = position.getLatitude();
             this.longitude = position.getLongitude();
         }
@@ -146,13 +146,13 @@ public abstract class PokerWarpController implements WarpResponseListener {
 
     private String getRoomProperties() {
 //        return PokerUtils.getRoomProperties(contestId + "", PokerConstants.FRESH_ROOM_STATUS, smallBlind + "", bigBlind + "", minAddAmount + "", maxAddAmount + "");
-        JsonValue properties=new JsonValue(JsonValue.ValueType.object);
-        properties.addChild("variant",new JsonValue(contestId));
-        properties.addChild(PokerConstants.KEY_ROOM_STATUS,new JsonValue("FRESH"));
-        properties.addChild("smallBlind",new JsonValue(smallBlind+""));
-        properties.addChild("bigBlind",new JsonValue(bigBlind+""));
-        properties.addChild("minAddAmount",new JsonValue(minAddAmount+""));
-        properties.addChild("maxAddAmount",new JsonValue(maxAddAmount+""));
+        JsonValue properties = new JsonValue(JsonValue.ValueType.object);
+        properties.addChild("variant", new JsonValue(contestId));
+        properties.addChild(PokerConstants.KEY_ROOM_STATUS, new JsonValue("FRESH"));
+        properties.addChild("smallBlind", new JsonValue(smallBlind + ""));
+        properties.addChild("bigBlind", new JsonValue(bigBlind + ""));
+        properties.addChild("minAddAmount", new JsonValue(minAddAmount + ""));
+        properties.addChild("maxAddAmount", new JsonValue(maxAddAmount + ""));
         addGameProperties(properties);
         return properties.toJson(JsonWriter.OutputType.json);
     }
@@ -259,7 +259,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
                 PokerUtils.setTimeOut(2000, new TimeoutHandler() {
                     @Override
                     public void onTimeOut() {
-                        Gdx.app.error("ConnectionError","Reconnect");
                         client.connect(myID, getAuthData());
                     }
                 });
@@ -301,12 +300,10 @@ public abstract class PokerWarpController implements WarpResponseListener {
         client.resetListeners();
         if (requestState == RECOVER_SESSION) {
             if (listener != null) {
-                Gdx.app.log("Disconnected ", "warcontroller1");
                 listener.onConnectionFailed();
             }
         } else {
             if (listener != null) {
-                Gdx.app.log("Disconnected ", "warcontroller2");
                 listener.onConnectionFailed();
             }
         }
@@ -336,7 +333,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
         if (requestState == RECONNECT) {
             connect();
         } else {
-            client.resetListeners();
             if (responseState == SESSION_RECOVERED) {
                 if (listener != null) {
                     listener.onDisconnected();
@@ -347,6 +343,10 @@ public abstract class PokerWarpController implements WarpResponseListener {
                 }
             }
         }
+    }
+
+    public void reset() {
+        client.resetListeners();
     }
 
     public void joinRoomWithProperties(JsonValue matchProperties) {
@@ -422,7 +422,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
                 case 0:
                     if (matchProperties != null) {
                         matchingTry++;
-                        matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS,new JsonValue(PokerConstants.FINISH_ROOM_STATUS));
+                        matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS, new JsonValue(PokerConstants.FINISH_ROOM_STATUS));
                         joinRoomWithProperties(matchProperties);
                     }
                     break;
@@ -430,7 +430,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
                 case 1:
                     if (matchProperties != null) {
                         matchingTry++;
-                        matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS,new JsonValue(PokerConstants.RUNNING_ROOM_STATUS));
+                        matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS, new JsonValue(PokerConstants.RUNNING_ROOM_STATUS));
                         joinRoomWithProperties(matchProperties);
                     }
                     break;
@@ -457,7 +457,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
     @Override
     public void onCreateRoomDone(RoomEvent roomEvent) {
         if (roomEvent.getResult() == WarpResponseResultCode.SUCCESS) {
-            Gdx.app.error("onCreateRoomDone","done");
             client.joinRoom(roomEvent.getRoomId());
         } else {
             disconnect();
@@ -480,7 +479,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
     @Override
     public void onGetLiveRoomInfoDone(LiveRoomInfoEvent liveRoomInfoEvent) {
         if (listener == null) return;
-        Gdx.app.error("onGetLiveRoomInfoMain","done");
         if (liveRoomInfoEvent.getResult() == WarpResponseResultCode.SUCCESS) {
             listener.onGetLiveRoomInfo(liveRoomInfoEvent);
         }
@@ -544,7 +542,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
         if (update != null && update.length > 0) {
             try {
                 String message = new String(update);
-                Gdx.app.error("Update Peers",message);
                 listener.handleClientMessage(message, "");
             } catch (Exception e) {
             }
@@ -552,8 +549,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
     }
 
     public void sendMessage(int type, JsonValue data) {
-        String message=new PokerMessage(type,data).toString();
-        Gdx.app.error("Sent Message",message);
+        String message = new PokerMessage(type, data).toString();
         client.sendChat(message);
     }
 
@@ -567,7 +563,6 @@ public abstract class PokerWarpController implements WarpResponseListener {
     }
 
     public void sendRecoverRequest() {
-        Gdx.app.error("Send Recover Request",0+"");
         sendRecoverRequest(0);
     }
 
@@ -602,7 +597,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
 
     @Override
     public void onGetMatchedRoomsDone(MatchedRoomEvent matchedRoomsEvent) {
-        if (listener!=null){
+        if (listener != null) {
             listener.onGetMatchedRoomsDone(matchedRoomsEvent);
         }
     }
@@ -636,7 +631,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
     }
 
     public void getMatchedRoom(JsonValue matchProperties) {
-        gettingRoomWithProperty =  PokerConstants.GET_ROOM_WITH_FRESH_PROPERTY;
+        gettingRoomWithProperty = PokerConstants.GET_ROOM_WITH_FRESH_PROPERTY;
         matchPropertiesForRoom = matchProperties;
         getRoomWithProperties(matchProperties);
     }
@@ -657,11 +652,11 @@ public abstract class PokerWarpController implements WarpResponseListener {
         PokerUtils.setTimeOut(1000, new TimeoutHandler() {
             @Override
             public void onTimeOut() {
-                final int count=counterTime;
-                PokerInterval pokerInterval=new PokerInterval(2000) {
+                final int count = counterTime;
+                PokerInterval pokerInterval = new PokerInterval(2000) {
                     @Override
                     public void onInterval() {
-                        if ((!PokerUtils.isNetworkConnected() || isLimitedAccess) && count>0){
+                        if ((!PokerUtils.isNetworkConnected() || isLimitedAccess) && count > 0) {
                             ApiHandler.callCurrentTimeApi(new GdxListener<String>() {
                                 @Override
                                 public void onSuccess(String s) {
@@ -679,7 +674,7 @@ public abstract class PokerWarpController implements WarpResponseListener {
 
                                 }
                             });
-                        }else {
+                        } else {
                             cancel();
                         }
                     }

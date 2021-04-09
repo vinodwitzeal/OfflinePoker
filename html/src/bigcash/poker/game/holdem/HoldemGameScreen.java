@@ -710,8 +710,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
             }
             mainTable.addActor(gameButton);
             startX = startX + 2 * buttonPad + maxButtonWidth;
-
-            Gdx.app.log(gameButton.getName(), "State:" + gameButton.getState());
         }
 
         if (raiseButton.getState() != GameButton.NO_ACTION) {
@@ -725,7 +723,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
     public void sendMove(String moveType, float betAmount) {
         if (holdemWorld.isUserTurn()) {
             if (moveType.matches(PokerConstants.MOVE_CHECK)) {
-                Gdx.app.log("SendMove PokerGameScreen", moveType);
             }
             holdemWorld.holdemUserPlayer.cancelTimer();
             holdemWorld.stopTickSound();
@@ -764,7 +761,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
                 matchProperties.addChild("variant",new JsonValue(contestId));
                 matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS,new JsonValue(PokerConstants.FRESH_ROOM_STATUS));
             }else{
-                Gdx.app.error("onJoinRoomDone=contestId",contestId+"-"+qrId);
                 matchProperties.addChild("variant",new JsonValue(contestId));
                 matchProperties.addChild("qrId",new JsonValue(qrId));
                 matchProperties.addChild(PokerConstants.KEY_ROOM_STATUS,new JsonValue(PokerConstants.FRESH_ROOM_STATUS));
@@ -870,13 +866,8 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                warpController.reset();
                 pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                    @Override
-//                    public void onTimeOut() {
-//                        pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                    }
-//                });
             }
         });
     }
@@ -920,13 +911,8 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                warpController.reset();
                 pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                    @Override
-//                    public void onTimeOut() {
-//                        pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                    }
-//                });
             }
         });
     }
@@ -939,13 +925,8 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
+                    warpController.reset();
                     pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                    PokerUtils.closeFullScreen(new TimeoutHandler() {
-//                        @Override
-//                        public void onTimeOut() {
-//                            pokerGame.setScreen(new PokerContestScreen(pokerGame));
-//                        }
-//                    });
                 }
             });
         }
@@ -1029,7 +1010,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
 
     @Override
     public void onMoveCompleted(final MoveEvent moveEvent) {
-        //  Gdx.app.log("onMoveCompleted",new Json().prettyPrint(moveEvent));
         if (holdemWorld.getGameState() != PokerConstants.GAME_RUNNING || screenPaused) return;
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -1074,7 +1054,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
 
     @Override
     public void handleServerMessage(final String messageData, String sender) {
-        Gdx.app.log("Server Message", new JsonReader().parse(messageData).toJson(JsonWriter.OutputType.json));
         if (screenPaused) {
             parseTimerMessage(messageData);
             return;
@@ -1107,14 +1086,10 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        Gdx.app.log("Server Message", "MESSAGE_LEAVE");
                         String leftUserId = message.getString("leftUserId");
-                        Gdx.app.log("Server Message", leftUserId);
                         if (leftUserId.matches(warpController.myID)){
-                            Gdx.app.log("MESSAGE_LEAVE1", leftUserId);
                             onRoomLeft();
                         }else {
-                            Gdx.app.log("MESSAGE_LEAVE2", leftUserId);
                             onUserLeft(leftUserId);
                         }
                     }
@@ -1288,7 +1263,6 @@ public class HoldemGameScreen extends PokerAbstractScreen { ;
     }
 
     public void setRemainingGameStartTimeOnPause(long remainingTimeOnPause) {
-        //  Gdx.app.log(pokerWorld.getGameState()+"",screenPaused+"-"+remainingTimeOnPause);
         if (screenPaused && holdemWorld.getGameState() == PokerConstants.GAME_REST && remainingTimeOnPause >= 3000) {
             warpController.disconnect();
         }

@@ -27,7 +27,6 @@ public class HoldemResultMessage {
 
     public HoldemResultMessage(HoldemWorld holdemWorld, JsonValue jsonValue) {
         JsonValue resultData = new JsonReader().parse(jsonValue.toJson(JsonWriter.OutputType.json));
-        Gdx.app.log("Poker Result", resultData.prettyPrint(JsonWriter.OutputType.json, 1));
         if (resultData.has("openCards")) {
             openCards = resultData.get("openCards").asIntArray();
         }

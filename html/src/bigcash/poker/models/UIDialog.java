@@ -1,6 +1,7 @@
 package bigcash.poker.models;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
@@ -50,6 +51,18 @@ public abstract class UIDialog extends Dialog {
         show(screen.stage, null);
         setPosition(Math.round((screen.width - getWidth()) / 2), Math.round((screen.height - getHeight()) / 2));
         return this;
+    }
+
+    @Override
+    public Dialog show(Stage stage, Action action) {
+        screen.addDialog(this);
+        return super.show(stage, action);
+    }
+
+    @Override
+    public void hide(Action action) {
+        screen.removeDialog(this);
+        super.hide(action);
     }
 
     public void toast(String message){

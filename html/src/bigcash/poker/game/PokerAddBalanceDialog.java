@@ -227,7 +227,7 @@ public abstract class PokerAddBalanceDialog extends UIDialog {
         Table backTable = new Table();
         float closeSize = width * 0.08f;
         float sidePad = closeSize * 0.4f;
-        backTable.add(dataTable).width(width * 0.9f).pad(topPad, sidePad, sidePad, sidePad);
+        backTable.add(dataTable).width(dialogWidth).pad(topPad, sidePad, sidePad, sidePad);
 
 
         Table closeTable = new Table();

@@ -143,7 +143,6 @@ public class Payment {
             "image":"https://1101993670.rsc.cdn77.org/img/ic_launcher.png",
             "order_id":orderId,
             "handler":function(response){
-                $wnd.console.log(response);
                 rHandler.@bigcash.poker.network.Payment.PaymentHandler::onCompleted(Ljava/lang/String;)(JSON.stringify(response));
             },
             "modal": {
@@ -225,7 +224,6 @@ public class Payment {
             "image":"https://1101993670.rsc.cdn77.org/img/ic_launcher.png",
             "order_id":orderId,
             "handler":function(response){
-                $wnd.console.log(response);
                 rHandler.@bigcash.poker.network.Payment.PaymentHandler::onCompleted(Ljava/lang/String;)(JSON.stringify(response));
             },
             "modal": {
@@ -255,7 +253,7 @@ public class Payment {
 
 
 
-    interface PaymentHandler {
+    public interface PaymentHandler {
         void onCompleted(String response);
         void onError(String message);
     }

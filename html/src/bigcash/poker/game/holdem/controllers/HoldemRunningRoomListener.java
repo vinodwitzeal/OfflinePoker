@@ -80,7 +80,6 @@ public abstract class HoldemRunningRoomListener implements PokerWarpListener {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                Gdx.app.error("Disconnected","done");
                 onGetContestId(contestId);
             }
         });
@@ -115,7 +114,6 @@ public abstract class HoldemRunningRoomListener implements PokerWarpListener {
     @Override
     public void onGetLiveRoomInfo(LiveRoomInfoEvent liveRoomInfoEvent) {
         if (liveRoomInfoEvent.getResult() == WarpResponseResultCode.SUCCESS) {
-            Gdx.app.error("onGetLiveRoomInfo","done");
             if (liveRoomInfoEvent.getProperties() != null && liveRoomInfoEvent.getJoinedUsers()!= null
                     && liveRoomInfoEvent.getJoinedUsers().length>0 && liveRoomInfoEvent.getJoinedUsers().length<5) {
                 String[] users = liveRoomInfoEvent.getJoinedUsers();
@@ -130,10 +128,9 @@ public abstract class HoldemRunningRoomListener implements PokerWarpListener {
                         return;
                     }
                 }
-                Gdx.app.error("onGetLiveRoomInfo",liveRoomInfoEvent.getProperties());
+
                 JsonValue jsonValue = new JsonReader().parse(liveRoomInfoEvent.getProperties());
                 contestId = jsonValue.getInt("variant");
-                Gdx.app.error("onGetMatchedRoomsDone=contestId",contestId+"");
                 controller.client.disconnect();
             } else {
                 indexOfCheckedRoom++;
@@ -216,15 +213,12 @@ public abstract class HoldemRunningRoomListener implements PokerWarpListener {
     public void onGetMatchedRoomsDone(MatchedRoomEvent matchedRoomsEvent) {
         if (matchedRoomsEvent.getResult() == WarpResponseResultCode.SUCCESS) {
             if (matchedRoomsEvent.getRoomsData() != null && matchedRoomsEvent.getRoomsData().length > indexOfCheckedRoom) {
-                Gdx.app.error("onGetMatchedRoomsDone","2");
                 arrRoomData = matchedRoomsEvent.getRoomsData();
                 controller.client.getLiveRoomInfo(arrRoomData[indexOfCheckedRoom].getId());
             }else{
-                Gdx.app.error("onGetMatchedRoomsDone","1");
                 controller.client.disconnect();
             }
         } else {
-            Gdx.app.error("onGetMatchedRoomsDone","01");
             controller.client.disconnect();
         }
     }

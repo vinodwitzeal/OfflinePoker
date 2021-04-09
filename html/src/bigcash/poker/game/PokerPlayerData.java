@@ -35,7 +35,6 @@ public class PokerPlayerData {
         String status=data.getString("status","");
 
         lastMoveStatus=data.getString("lastMoveStatus","");
-        Gdx.app.log(lastMoveStatus, "lastMoveStatus");
         if (!status.isEmpty()){
             if (status.matches("FOLD")){
                 state=PokerConstants.PLAYER_FOLDED;
