@@ -1,6 +1,5 @@
 package bigcash.poker.dialogs;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -8,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -19,19 +16,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.List;
 
 import bigcash.poker.constants.Constant;
-import bigcash.poker.font.FontPool;
-import bigcash.poker.font.FontType;
-import bigcash.poker.game.PokerLoginListener;
-import bigcash.poker.game.PokerStyle;
-import bigcash.poker.game.holdem.HoldemGameScreen;
-import bigcash.poker.game.holdem.controllers.HoldemRunningRoomListener;
-import bigcash.poker.game.holdem.controllers.HoldemWarpController;
-import bigcash.poker.game.holdem.widgets.PokerContestStyle;
+import bigcash.poker.game.poker.PokerLoginListener;
+import bigcash.poker.game.poker.widgets.PokerStyle;
+import bigcash.poker.game.poker.holdem.HoldemGameScreen;
+import bigcash.poker.game.poker.holdem.controllers.HoldemRunningRoomListener;
+import bigcash.poker.game.poker.holdem.controllers.HoldemWarpController;
 import bigcash.poker.models.PokerContest;
 import bigcash.poker.models.QRContests;
 import bigcash.poker.models.QrInfo;

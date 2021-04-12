@@ -1012,7 +1012,7 @@ function callPostWithBody(url,params,callback){
         callback(request.status,request.responseText);
     }
     request.open("POST",url);
-    request.setRequestHeader("Content-Type","application/json");
+    request.setRequestHeader("Content-Type","application/json; utf-8");
     request.send(data);
 }
 

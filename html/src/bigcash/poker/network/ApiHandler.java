@@ -434,9 +434,9 @@ public class ApiHandler {
 
     public static void parseAppLaunchResponse(String response, boolean isRefresh) {
         try {
+            Gdx.app.error("AppLaunch",response);
             GamePreferences preference = GamePreferences.instance();
             JsonValue object = new JsonReader().parse(response);
-
             Constant.initialValue = new InitialValue();
             if (object.has(JsonParseKeys.CONFIG_DTO)) {
                 parseConfigDto(preference, object.get(JsonParseKeys.CONFIG_DTO));

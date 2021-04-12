@@ -1,5 +1,6 @@
 package bigcash.poker.models;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -48,6 +49,7 @@ public class UserProfile {
     }
 
     public void setImageId(String imageId) {
+        Gdx.app.error("Image Id",imageId);
         this.imageId = imageId;
     }
 
