@@ -104,7 +104,6 @@ public class ApiHandler {
     }
 
     public static void callEmailRegisterApi(String emailId, String name, String password, final String referralCode, final GdxListener<String> listener) {
-
         HashMap<String, String> params = new HashMap();
         params.put("emailId", emailId);
         params.put("deviceType", Constant.getDeviceType());

@@ -413,3 +413,77 @@ body {
     background-image: url("img/background.png");
 }
 
+
+.terms {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .terms input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  .link-splash{
+      text-decoration: none;
+      color:white;
+  }
+
+  .link-login{
+    text-decoration: none;
+    color:black;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    border: solid 2px;
+    border-radius: 2px;
+    border-color: #fa0519;
+    background-color:rgb(247, 147, 147);
+  }
+  
+  .terms input:checked ~ .checkmark {
+    background-color: #02991b;
+    border-color: #02991b;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .terms input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  .terms .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 3px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+

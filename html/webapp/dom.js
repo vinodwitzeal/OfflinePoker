@@ -846,8 +846,8 @@ class TextBox{
         icon.src=imgIcon;
         this.icon=icon;
         icon.style.height="12px";
+        icon.style.marginLeft="5px";
         iconDiv.appendChild(icon);
-        iconDiv.style.width="8%";
 
         var seperator=document.createElement("div");
         seperator.style.width="1px";
@@ -864,7 +864,7 @@ class TextBox{
         textBox.style.fontSize="12px";
         textBox.style.outline="none";
         textBox.style.border="none";
-        textBox.style.width="92%";
+        textBox.style.width="100%";
         textBox.style.height="auto";
 
 
@@ -907,8 +907,9 @@ class PasswordBox{
         icon.src="img/password.png";
         this.icon=icon;
         icon.style.height="12px";
+        icon.style.marginLeft="8px";
+        icon.style.marginRight="3px";
         iconDiv.appendChild(icon);
-        iconDiv.style.width="8%";
 
         var seperator=document.createElement("div");
         seperator.style.width="1px";
@@ -925,7 +926,7 @@ class PasswordBox{
         textBox.style.fontSize="12px";
         textBox.style.outline="none";
         textBox.style.border="none";
-        textBox.style.width="87%";
+        textBox.style.width="100%";
         textBox.style.height="auto";
 
 
@@ -954,7 +955,6 @@ class PasswordBox{
         passwordImage.src="img/password_hidden.png";
         passwordImage.style.height="12px";
         passwordDiv.appendChild(passwordImage);
-        passwordDiv.style.width="5%";
 
         passwordImage.addEventListener("click",function(){
             if(passwordHidden){
@@ -980,6 +980,63 @@ class PasswordBox{
     
     isValid(){
         return this.textBox.checkValidity();
+    }
+}
+
+class CheckBox{
+    constructor(){
+        var div=document.createElement("div");
+        div.setAttribute("class","terms");
+        
+        div.appendChild(input);
+        div.appendChild(span);
+
+        this.child=div;
+    }
+}
+
+class TermsLabel{
+    constructor(linkstyle){
+        var label=document.createElement("label");
+        label.setAttribute("class","terms");
+        label.innerHTML="By signing up, you accept you are <i><b>18+</b></i> and agree to our <i><b><a href=\"https://bigcash.live/terms.html\" target=\"_blank\" class=\""+linkstyle+"\">Terms and Conditions.</a></b></i>";
+
+        var input=document.createElement("input");
+        input.setAttribute("type","checkbox");
+        input.checked=true;
+        var span=document.createElement("span");
+        span.setAttribute("class","checkmark");
+
+        label.appendChild(input);
+        label.appendChild(span);
+
+        this.child=label;
+        this.input=input;
+
+        var errorLabel=document.createElement("label");
+        errorLabel.style.backgroundColor="#00000088";
+        errorLabel.style.borderRadius="8px";
+        errorLabel.style.padding="6px";
+        errorLabel.style.fontSize="10px";
+        errorLabel.style.color="white";
+        errorLabel.style.display="none";
+        errorLabel.textContent="You must accept terms and conditions to sign in to your account.";
+
+        input.addEventListener("change",function(){
+            if(input.checked){
+                errorLabel.style.display="none";
+            }
+        });
+
+        this.errorLabel=errorLabel;
+    }
+
+    isChecked(){
+        return this.input.checked;
+    }
+
+    showError(){
+        this.errorLabel.style.display="block";
     }
 }
 
@@ -1084,7 +1141,6 @@ function callAppLaunch(otp,userId,cookieData,processPop){
         }else{
             processPop.hide();
             window.clearGameCookie();
-           
         }
     });
 }
@@ -1349,8 +1405,15 @@ class LoginDialog extends ModelDialog{
         forgetLabel.child.style.width="80%"
         forgetLabel.child.style.fontWeight="bold";
         forgetLabel.child.marginBottom="20px";
-        forgetLabel.child.addEventListener("click",function(){});
         this.contentTable.appendChild(forgetLabel.child);
+
+        var termLabel=new TermsLabel("link-login");
+        termLabel.child.style.color="black";
+        termLabel.child.style.width="80%";
+        termLabel.errorLabel.style.width="80%";
+        this.contentTable.appendChild(termLabel.child);
+        this.contentTable.appendChild(termLabel.errorLabel);
+
 
         forgetLabel.child.addEventListener("click",function(){
             if(!emailBox.isValid()){
@@ -1367,8 +1430,17 @@ class LoginDialog extends ModelDialog{
             var processPop=new ProcessDialog();
             processPop.show();
             callPost(baseUrl+"v5/user/forgotPassword",params,function(state,response){
-                processPop.hide();
-                errorLabel.setText(response);
+                if(state==200){
+                    processPop.hide();
+                    errorLabel.setText(response);
+                }else{
+                    processPop.hide();
+                    if(state==500){
+                        errorLabel.setText("Server Busy");
+                    }else{
+                        errorLabel.setText(response);
+                    }
+                }
             });
 
         });
@@ -1400,6 +1472,11 @@ class LoginDialog extends ModelDialog{
 
             if(!passwordBox.isValid()){
                 errorLabel.setText("Enter Password.");
+                return;
+            }
+
+            if(!termLabel.isChecked()){
+                termLabel.showError();
                 return;
             }
         
@@ -1442,8 +1519,6 @@ class LoginDialog extends ModelDialog{
     }
 }
 
-
-
 class LoginScreen{
     constructor(width,height){
         var screenHeight=height;
@@ -1474,10 +1549,11 @@ class LoginScreen{
         googleButton.src="img/btn_google.png";
         buttonTable.add(googleButton).width("100%").horizontalAlign("center");
         buttonTable.row();
-        var termLabel=new Label("By registering you accept you are <span class=\"register-link\">18+</span> and agree to our <a href=\"https://bigcash.live/terms.html\" target=\"_blank\" class=\"register-link\">*T&C.</a>",12);
-        termLabel.child.style.color="#ffffff";
+        var termLabel=new TermsLabel("link-splash");
         buttonTable.add(termLabel.child).colspan(2);
         screen.add(buttonTable.table).width("80%").horizontalAlign("center");
+        screen.row();
+        screen.add(termLabel.errorLabel).width("80%").horizontalAlign("center");
         screen.row();
         this.buttonTable=buttonTable;
 
@@ -1526,6 +1602,10 @@ class LoginScreen{
         });
 
         facebookButton.addEventListener("click",function(){
+            if(!termLabel.isChecked()){
+                termLabel.showError();
+                return;
+            }
             var processPop=new ProcessDialog();
             processPop.show();
             window.FB.login(function(response){
@@ -1538,6 +1618,10 @@ class LoginScreen{
         });
 
         googleButton.addEventListener("click",function(){
+            if(!termLabel.isChecked()){
+                termLabel.showError();
+                return;
+            }
             var processPop=new ProcessDialog();
             processPop.show();
             var provider=new firebase.auth.GoogleAuthProvider();

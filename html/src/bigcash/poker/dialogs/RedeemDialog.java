@@ -115,10 +115,6 @@ public class RedeemDialog extends IDialog {
         float walletTablePad = walletTableWidth * 0.1f;
         float walletPad = walletTablePad;
 
-        TextureRegion addTexture = uiAtlas.findRegion("icon_add");
-        float addHeight = headerLabelStyle.font.getLineHeight() * 1.2f;
-        float addWidth = addHeight * addTexture.getRegionWidth() / addTexture.getRegionHeight();
-
         TextureRegion balanceWalletTexture = uiAtlas.findRegion("icon_walletn");
         float balanceWalletHeight = headerLabelStyle.font.getLineHeight();
         float balanceWalletWidth = balanceWalletHeight * balanceWalletTexture.getRegionWidth() / balanceWalletTexture.getRegionHeight();
@@ -129,7 +125,7 @@ public class RedeemDialog extends IDialog {
         paytmWalletTable.add(new Image(balanceWalletTexture)).width(balanceWalletWidth).height(balanceWalletHeight).expandX().align(Align.left);
         Label walletLabel = new Label(Constant.userProfile.getPaytmBalance() + "", headerLabelStyle);
         paytmWalletTable.add(walletLabel).padLeft(walletPad).padRight(walletPad).expandX().align(Align.right);
-        paytmWalletTable.add(new Image(addTexture)).width(addWidth).height(addHeight);
+
         headerTable.add(paytmWalletTable).height(walletTableHeight).padRight(8 * density);
         float headerHeight = walletTableHeight * 2;
         contentTable.add(headerTable).width(width).height(headerHeight).row();
