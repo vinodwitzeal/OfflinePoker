@@ -841,7 +841,7 @@ public class OmahaGameScreen extends PokerAbstractScreen {
             @Override
             public void run() {
                 warpController.reset();
-                pokerGame.setScreen(new PokerContestScreen(pokerGame));
+                pokerGame.setScreen(new PokerContestScreen(pokerGame,PokerContestScreen.OMAHA));
             }
         });
     }
@@ -888,7 +888,7 @@ public class OmahaGameScreen extends PokerAbstractScreen {
             @Override
             public void run() {
                 warpController.reset();
-                pokerGame.setScreen(new PokerContestScreen(pokerGame));
+                pokerGame.setScreen(new PokerContestScreen(pokerGame,PokerContestScreen.OMAHA));
             }
         });
     }
@@ -902,7 +902,7 @@ public class OmahaGameScreen extends PokerAbstractScreen {
                 @Override
                 public void run() {
                     warpController.reset();
-                    pokerGame.setScreen(new PokerContestScreen(pokerGame));
+                    pokerGame.setScreen(new PokerContestScreen(pokerGame,PokerContestScreen.OMAHA));
                 }
             });
         }
